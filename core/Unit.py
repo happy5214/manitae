@@ -1,7 +1,11 @@
 from PyQt4 import QtCore
 
 class Unit(QtCore.QObject):
+    
+    UNIT = ""
+    
     change_primitive_resource = QtCore.pyqtSignal('QString', int)
+    
     def __init__(self):
         super(Unit, self).__init__()
     

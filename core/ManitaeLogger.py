@@ -12,5 +12,5 @@ class ManitaeLogger(QtCore.QObject):
     
     def append_warning(self, warning):
         tempString = "<p style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; white-space:pre-wrap; color:#c00000\">" + warning + "</p><br/>\n";
-        self.sendEntry.emit(tempString);
+        self.send_entry.emit(tempString);
     

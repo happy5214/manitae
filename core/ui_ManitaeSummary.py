@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ManitaeSummary.ui'
 #
-# Created: Wed Jan 25 00:37:10 2012
+# Created: Thu Jan 26 22:42:16 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -139,6 +139,7 @@ class Ui_ManitaeSummary(object):
         self.groupBox_3.setTitle(QtGui.QApplication.translate("ManitaeSummary", "Resources", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
         self.formLayout_3 = QtGui.QFormLayout(self.groupBox_3)
+        self.formLayout_3.setFieldGrowthPolicy(QtGui.QFormLayout.ExpandingFieldsGrow)
         self.formLayout_3.setObjectName(_fromUtf8("formLayout_3"))
         self.resourceComboBox = QtGui.QComboBox(self.groupBox_3)
         self.resourceComboBox.setEditable(False)
@@ -185,18 +186,17 @@ class Ui_ManitaeSummary(object):
         self.gridLayout_6.addWidget(self.noticeLog, 0, 0, 1, 1)
         self.gridLayout.addWidget(self.groupBox_5, 0, 1, 1, 1)
         self.groupBox_6 = QtGui.QGroupBox(ManitaeSummary)
-        self.groupBox_6.setTitle(QtGui.QApplication.translate("ManitaeSummary", "Buildings", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_6.setTitle(QtGui.QApplication.translate("ManitaeSummary", "Build", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_6.setObjectName(_fromUtf8("groupBox_6"))
-        self.formLayout_4 = QtGui.QFormLayout(self.groupBox_6)
-        self.formLayout_4.setObjectName(_fromUtf8("formLayout_4"))
-        self.buildingComboBox = QtGui.QComboBox(self.groupBox_6)
-        self.buildingComboBox.setObjectName(_fromUtf8("buildingComboBox"))
-        self.formLayout_4.setWidget(0, QtGui.QFormLayout.LabelRole, self.buildingComboBox)
-        self.buildingLineEdit = QtGui.QLineEdit(self.groupBox_6)
-        self.buildingLineEdit.setEnabled(True)
-        self.buildingLineEdit.setReadOnly(True)
-        self.buildingLineEdit.setObjectName(_fromUtf8("buildingLineEdit"))
-        self.formLayout_4.setWidget(0, QtGui.QFormLayout.FieldRole, self.buildingLineEdit)
+        self.gridLayout_3 = QtGui.QGridLayout(self.groupBox_6)
+        self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
+        self.buildComboBox = QtGui.QComboBox(self.groupBox_6)
+        self.buildComboBox.setObjectName(_fromUtf8("buildComboBox"))
+        self.gridLayout_3.addWidget(self.buildComboBox, 0, 0, 1, 1)
+        self.buildPushButton = QtGui.QPushButton(self.groupBox_6)
+        self.buildPushButton.setText(QtGui.QApplication.translate("ManitaeSummary", "Build", None, QtGui.QApplication.UnicodeUTF8))
+        self.buildPushButton.setObjectName(_fromUtf8("buildPushButton"))
+        self.gridLayout_3.addWidget(self.buildPushButton, 0, 1, 1, 1)
         self.gridLayout.addWidget(self.groupBox_6, 1, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
 
@@ -214,8 +214,6 @@ class Ui_ManitaeSummary(object):
         ManitaeSummary.setTabOrder(self.otherExpenses, self.totalIncome)
         ManitaeSummary.setTabOrder(self.totalIncome, self.resourceComboBox)
         ManitaeSummary.setTabOrder(self.resourceComboBox, self.resourceLineEdit)
-        ManitaeSummary.setTabOrder(self.resourceLineEdit, self.buildingComboBox)
-        ManitaeSummary.setTabOrder(self.buildingComboBox, self.buildingLineEdit)
 
     def retranslateUi(self, ManitaeSummary):
         pass

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ManitaeMainWindow.ui'
 #
-# Created: Wed Jan 25 18:26:24 2012
+# Created: Thu Jan 26 22:38:42 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -33,14 +33,6 @@ class Ui_ManitaeMainWindow(object):
         self.widget.setObjectName(_fromUtf8("widget"))
         self.gridLayout.addWidget(self.widget, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
-        self.tab_2 = QtGui.QWidget()
-        self.tab_2.setObjectName(_fromUtf8("tab_2"))
-        self.gridLayout_3 = QtGui.QGridLayout(self.tab_2)
-        self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
-        self.widget_2 = ManitaeBuildWidget(self.tab_2)
-        self.widget_2.setObjectName(_fromUtf8("widget_2"))
-        self.gridLayout_3.addWidget(self.widget_2, 0, 0, 1, 1)
-        self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
         self.gridLayout_2.addWidget(self.tabWidget, 0, 0, 1, 1)
         ManitaeMainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(ManitaeMainWindow)
@@ -118,7 +110,5 @@ class Ui_ManitaeMainWindow(object):
 
     def retranslateUi(self, ManitaeMainWindow):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("ManitaeMainWindow", "Summary", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("ManitaeMainWindow", "Build", None, QtGui.QApplication.UnicodeUTF8))
 
 from ManitaeSummary import ManitaeSummary
-from ManitaeBuildWidget import ManitaeBuildWidget

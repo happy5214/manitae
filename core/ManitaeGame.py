@@ -2,9 +2,11 @@ from PyQt4 import QtGui, QtCore
 
 from ManitaeMainWindow import *
 from ManitaeLogger import *
+from PopulationManager import *
 from ResourceManager import *
 from TurnManager import *
 from UnitManager import *
+from NoMoreWorkersError import *
 
 class ManitaeGame(QtCore.QObject):
     def __init__(self, main_window):
@@ -15,6 +17,7 @@ class ManitaeGame(QtCore.QObject):
         self.logger.send_entry.connect(self.add_log_entry)
         self.logger.append_notice("New game started.")
         
+        self.population_manager = PopulationManager(self)
         self.resource_manager = ResourceManager(self)
         self.turn_manager = TurnManager(self)
         self.unit_manager = UnitManager(self)
@@ -23,8 +26,8 @@ class ManitaeGame(QtCore.QObject):
         
         self.main_window.ui.widget.ui.resourceComboBox.setModel(self.resource_manager.resource_type_model)
         self.main_window.ui.widget.ui.resourceComboBox.activated[str].connect(self.update_resource_widget)
-        self.main_window.ui.widget_2.ui.comboBox.setModel(self.unit_manager.unit_type_model)
-        self.main_window.ui.widget_2.ui.pushButton.clicked.connect(self.build)
+        self.main_window.ui.widget.ui.buildComboBox.setModel(self.unit_manager.unit_type_model)
+        self.main_window.ui.widget.ui.buildPushButton.clicked.connect(self.build)
         
         self.resource_manager.resource_changed.connect(self.update_resource_widget_after_turn)
         
@@ -41,8 +44,11 @@ class ManitaeGame(QtCore.QObject):
         self.extra_tabs.append(tab)
     
     def build(self):
-        unit = self.main_window.ui.widget_2.ui.comboBox.currentText()
-        self.unit_manager.build(unit)
+        unit = self.main_window.ui.widget.ui.buildComboBox.currentText()
+        try:
+            self.unit_manager.build(unit)
+        except NoMoreWorkersError as e:
+            self.logger.append_warning(str(e))
     
     def end_turn(self):
         self.turn_manager.end_turn()
@@ -51,6 +57,7 @@ class ManitaeGame(QtCore.QObject):
         for x in self.extra_tabs:
             self.main_window.ui.tabWidget.removeTab(self.main_window.ui.tabWidget.indexOf(x))
         del self.extra_tabs
+        del self.population_manager
         del self.resource_manager
         del self.turn_manager
         del self.unit_manager
@@ -59,13 +66,14 @@ class ManitaeGame(QtCore.QObject):
         self.turn_manager = TurnManager(self)
         self.logger.append_notice("New game started.")
         
+        self.population_manager = PopulationManager(self)
         self.resource_manager = ResourceManager(self)
         self.unit_manager = UnitManager(self)
         
         self.extra_tabs = []
         
         self.main_window.ui.widget.ui.resourceComboBox.setModel(self.resource_manager.resource_type_model)
-        self.main_window.ui.widget_2.ui.comboBox.setModel(self.unit_manager.unit_type_model)
+        self.main_window.ui.widget.ui.buildComboBox.setModel(self.unit_manager.unit_type_model)
         
         self.resource_manager.resource_changed.connect(self.update_resource_widget_after_turn)
         

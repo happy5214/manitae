@@ -1,15 +1,20 @@
 from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
 from PyQt4.QtGui import QWidget
 
-from core.Producer import Producer
+from core.Producer import *
 from ui_Gatherer import Ui_Gatherer
 
 class Gatherer(Producer):
     
+    UNIT = "Gatherer"
+    
+    employee_types = ['Citizen', 'Gatherer']
+    
     def __init__(self):
         super(Gatherer, self).__init__()
         self._production_rate = 3
-        self._employees = 1
+        self.employees = []
+        self._employee_count = 0
         self._production_on = True
         self.ui = Ui_Gatherer()
         self.widget = QWidget()
@@ -17,8 +22,15 @@ class Gatherer(Producer):
         
         self.ui.prodOnCheckBox.toggled.connect(self.production_on_checked)
         self.ui.prodLevelLineEdit.setText(str(self._production_rate))
-        self.ui.employeeLineEdit.setText(str(self._employees))
+        self.ui.employeeLineEdit.setText(str(self._employee_count))
         self.ui.prodOnCheckBox.setChecked(self._production_on)
+    
+    def ready_for_allocation(self):
+        self.needs_employee.emit(self, 1)
+        self._employee_count = len(self.employees)
+        if self._employee_count == 0:
+            raise NoMoreWorkersError(self.UNIT)
+        self.ui.employeeLineEdit.setText(str(self._employee_count))
     
     def on_turn_end(self, turn_number):
         if self.production_on:
@@ -35,13 +47,8 @@ class Gatherer(Producer):
         self.ui.prodLevelLineEdit.setText(str(self._production_rate))
     
     @pyqtProperty(int)
-    def employees(self):
-        return self._employees
-    
-    @employees.setter
-    def employees(self, value):
-        self._employees = value
-        self.ui.employeeLineEdit.setText(str(self._employees))
+    def employee_count(self):
+        return self._employee_count
     
     @pyqtProperty(bool)
     def production_on(self):

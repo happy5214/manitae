@@ -14,6 +14,7 @@ class ResourceManager(QtCore.QObject):
         self.resource_type_model = QtGui.QStringListModel(self.resource_types)
     
     def setup_resource_types(self):
+        """Sets up the resource_types list."""
         self.resource_types = []
         for x in pkgutil.walk_packages(['resources']):
             if not(x[1].startswith('ui_')):
