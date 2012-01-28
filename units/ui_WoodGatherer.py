@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Gatherer.ui'
+# Form implementation generated from reading ui file 'WoodGatherer.ui'
 #
-# Created: Fri Jan 27 20:03:28 2012
+# Created: Fri Jan 27 20:03:30 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -14,20 +14,20 @@ try:
 except AttributeError:
     _fromUtf8 = lambda s: s
 
-class Ui_Gatherer(object):
-    def setupUi(self, Gatherer):
-        Gatherer.setObjectName(_fromUtf8("Gatherer"))
-        Gatherer.resize(756, 534)
-        Gatherer.setWindowTitle(QtGui.QApplication.translate("Gatherer", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.verticalLayout = QtGui.QVBoxLayout(Gatherer)
+class Ui_WoodGatherer(object):
+    def setupUi(self, WoodGatherer):
+        WoodGatherer.setObjectName(_fromUtf8("WoodGatherer"))
+        WoodGatherer.resize(756, 534)
+        WoodGatherer.setWindowTitle(QtGui.QApplication.translate("WoodGatherer", "Form", None, QtGui.QApplication.UnicodeUTF8))
+        self.verticalLayout = QtGui.QVBoxLayout(WoodGatherer)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.basicsGroupBox = QtGui.QGroupBox(Gatherer)
-        self.basicsGroupBox.setTitle(QtGui.QApplication.translate("Gatherer", "Basics", None, QtGui.QApplication.UnicodeUTF8))
+        self.basicsGroupBox = QtGui.QGroupBox(WoodGatherer)
+        self.basicsGroupBox.setTitle(QtGui.QApplication.translate("WoodGatherer", "Basics", None, QtGui.QApplication.UnicodeUTF8))
         self.basicsGroupBox.setObjectName(_fromUtf8("basicsGroupBox"))
         self.formLayout = QtGui.QFormLayout(self.basicsGroupBox)
         self.formLayout.setObjectName(_fromUtf8("formLayout"))
         self.label = QtGui.QLabel(self.basicsGroupBox)
-        self.label.setText(QtGui.QApplication.translate("Gatherer", "Production level", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("WoodGatherer", "Production level", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setObjectName(_fromUtf8("label"))
         self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.label)
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
@@ -37,12 +37,12 @@ class Ui_Gatherer(object):
         self.prodLevelLineEdit.setObjectName(_fromUtf8("prodLevelLineEdit"))
         self.horizontalLayout_2.addWidget(self.prodLevelLineEdit)
         self.label_3 = QtGui.QLabel(self.basicsGroupBox)
-        self.label_3.setText(QtGui.QApplication.translate("Gatherer", " /turn", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("WoodGatherer", " /turn", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.horizontalLayout_2.addWidget(self.label_3)
         self.formLayout.setLayout(1, QtGui.QFormLayout.FieldRole, self.horizontalLayout_2)
         self.label_2 = QtGui.QLabel(self.basicsGroupBox)
-        self.label_2.setText(QtGui.QApplication.translate("Gatherer", "Employees", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("WoodGatherer", "Employees", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.formLayout.setWidget(2, QtGui.QFormLayout.LabelRole, self.label_2)
         self.employeeLineEdit = QtGui.QLineEdit(self.basicsGroupBox)
@@ -50,7 +50,7 @@ class Ui_Gatherer(object):
         self.employeeLineEdit.setObjectName(_fromUtf8("employeeLineEdit"))
         self.formLayout.setWidget(2, QtGui.QFormLayout.FieldRole, self.employeeLineEdit)
         self.label_4 = QtGui.QLabel(self.basicsGroupBox)
-        self.label_4.setText(QtGui.QApplication.translate("Gatherer", "Production On", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("WoodGatherer", "Production On", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setObjectName(_fromUtf8("label_4"))
         self.formLayout.setWidget(4, QtGui.QFormLayout.LabelRole, self.label_4)
         self.prodOnCheckBox = QtGui.QCheckBox(self.basicsGroupBox)
@@ -58,7 +58,7 @@ class Ui_Gatherer(object):
         self.prodOnCheckBox.setObjectName(_fromUtf8("prodOnCheckBox"))
         self.formLayout.setWidget(4, QtGui.QFormLayout.FieldRole, self.prodOnCheckBox)
         self.label_5 = QtGui.QLabel(self.basicsGroupBox)
-        self.label_5.setText(QtGui.QApplication.translate("Gatherer", "Salary", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_5.setText(QtGui.QApplication.translate("WoodGatherer", "Salary", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setObjectName(_fromUtf8("label_5"))
         self.formLayout.setWidget(3, QtGui.QFormLayout.LabelRole, self.label_5)
         self.salaryLineEdit = QtGui.QLineEdit(self.basicsGroupBox)
@@ -66,16 +66,16 @@ class Ui_Gatherer(object):
         self.salaryLineEdit.setObjectName(_fromUtf8("salaryLineEdit"))
         self.formLayout.setWidget(3, QtGui.QFormLayout.FieldRole, self.salaryLineEdit)
         self.label_6 = QtGui.QLabel(self.basicsGroupBox)
-        self.label_6.setText(QtGui.QApplication.translate("Gatherer", "Level", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("WoodGatherer", "Level", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setObjectName(_fromUtf8("label_6"))
         self.formLayout.setWidget(0, QtGui.QFormLayout.LabelRole, self.label_6)
         self.label_7 = QtGui.QLabel(self.basicsGroupBox)
-        self.label_7.setText(QtGui.QApplication.translate("Gatherer", "1", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setText(QtGui.QApplication.translate("WoodGatherer", "1", None, QtGui.QApplication.UnicodeUTF8))
         self.label_7.setObjectName(_fromUtf8("label_7"))
         self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.label_7)
         self.verticalLayout.addWidget(self.basicsGroupBox)
-        self.employeesGroupBox = QtGui.QGroupBox(Gatherer)
-        self.employeesGroupBox.setTitle(QtGui.QApplication.translate("Gatherer", "Employees", None, QtGui.QApplication.UnicodeUTF8))
+        self.employeesGroupBox = QtGui.QGroupBox(WoodGatherer)
+        self.employeesGroupBox.setTitle(QtGui.QApplication.translate("WoodGatherer", "Employees", None, QtGui.QApplication.UnicodeUTF8))
         self.employeesGroupBox.setObjectName(_fromUtf8("employeesGroupBox"))
         self.gridLayout_4 = QtGui.QGridLayout(self.employeesGroupBox)
         self.gridLayout_4.setObjectName(_fromUtf8("gridLayout_4"))
@@ -83,24 +83,24 @@ class Ui_Gatherer(object):
         self.employeeListView.setObjectName(_fromUtf8("employeeListView"))
         self.gridLayout_4.addWidget(self.employeeListView, 0, 0, 1, 1)
         self.verticalLayout.addWidget(self.employeesGroupBox)
-        self.actionsGroupBox = QtGui.QGroupBox(Gatherer)
-        self.actionsGroupBox.setTitle(QtGui.QApplication.translate("Gatherer", "Actions", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionsGroupBox = QtGui.QGroupBox(WoodGatherer)
+        self.actionsGroupBox.setTitle(QtGui.QApplication.translate("WoodGatherer", "Actions", None, QtGui.QApplication.UnicodeUTF8))
         self.actionsGroupBox.setObjectName(_fromUtf8("actionsGroupBox"))
         self.gridLayout = QtGui.QGridLayout(self.actionsGroupBox)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.gridLayout_2 = QtGui.QGridLayout()
         self.gridLayout_2.setObjectName(_fromUtf8("gridLayout_2"))
         self.upgradeButton = QtGui.QPushButton(self.actionsGroupBox)
-        self.upgradeButton.setText(QtGui.QApplication.translate("Gatherer", "Upgrade", None, QtGui.QApplication.UnicodeUTF8))
+        self.upgradeButton.setText(QtGui.QApplication.translate("WoodGatherer", "Upgrade", None, QtGui.QApplication.UnicodeUTF8))
         self.upgradeButton.setObjectName(_fromUtf8("upgradeButton"))
         self.gridLayout_2.addWidget(self.upgradeButton, 0, 0, 1, 1)
         self.destroyButton = QtGui.QPushButton(self.actionsGroupBox)
-        self.destroyButton.setText(QtGui.QApplication.translate("Gatherer", "Destroy", None, QtGui.QApplication.UnicodeUTF8))
+        self.destroyButton.setText(QtGui.QApplication.translate("WoodGatherer", "Destroy", None, QtGui.QApplication.UnicodeUTF8))
         self.destroyButton.setObjectName(_fromUtf8("destroyButton"))
         self.gridLayout_2.addWidget(self.destroyButton, 0, 1, 1, 1)
         self.gridLayout.addLayout(self.gridLayout_2, 2, 1, 1, 1)
         self.hireButton = QtGui.QPushButton(self.actionsGroupBox)
-        self.hireButton.setText(QtGui.QApplication.translate("Gatherer", "Hire", None, QtGui.QApplication.UnicodeUTF8))
+        self.hireButton.setText(QtGui.QApplication.translate("WoodGatherer", "Hire", None, QtGui.QApplication.UnicodeUTF8))
         self.hireButton.setObjectName(_fromUtf8("hireButton"))
         self.gridLayout.addWidget(self.hireButton, 0, 1, 1, 1)
         self.hireComboBox = QtGui.QComboBox(self.actionsGroupBox)
@@ -110,16 +110,16 @@ class Ui_Gatherer(object):
         self.fireComboBox.setObjectName(_fromUtf8("fireComboBox"))
         self.gridLayout.addWidget(self.fireComboBox, 1, 0, 1, 1)
         self.fireButton = QtGui.QPushButton(self.actionsGroupBox)
-        self.fireButton.setText(QtGui.QApplication.translate("Gatherer", "Fire", None, QtGui.QApplication.UnicodeUTF8))
+        self.fireButton.setText(QtGui.QApplication.translate("WoodGatherer", "Fire", None, QtGui.QApplication.UnicodeUTF8))
         self.fireButton.setObjectName(_fromUtf8("fireButton"))
         self.gridLayout.addWidget(self.fireButton, 1, 1, 1, 1)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 2, 0, 1, 1)
         self.verticalLayout.addWidget(self.actionsGroupBox)
 
-        self.retranslateUi(Gatherer)
-        QtCore.QMetaObject.connectSlotsByName(Gatherer)
+        self.retranslateUi(WoodGatherer)
+        QtCore.QMetaObject.connectSlotsByName(WoodGatherer)
 
-    def retranslateUi(self, Gatherer):
+    def retranslateUi(self, WoodGatherer):
         pass
 

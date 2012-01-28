@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Hunter</class>
- <widget class="QWidget" name="Hunter">
+ <class>WoodGatherer</class>
+ <widget class="QWidget" name="WoodGatherer">
   <property name="geometry">
    <rect>
     <x>0</x>

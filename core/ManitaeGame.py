@@ -1,12 +1,14 @@
 from PyQt4 import QtGui, QtCore
 
 from ManitaeMainWindow import *
+from EconomyManager import *
 from ManitaeLogger import *
 from PopulationManager import *
 from ResourceManager import *
 from TurnManager import *
 from UnitManager import *
 from NoMoreWorkersError import *
+from OutOfMoneyError import *
 
 class ManitaeGame(QtCore.QObject):
     def __init__(self, main_window):
@@ -17,10 +19,13 @@ class ManitaeGame(QtCore.QObject):
         self.logger.send_entry.connect(self.add_log_entry)
         self.logger.append_notice("New game started.")
         
+        self.economy_manager = EconomyManager(self)
         self.population_manager = PopulationManager(self)
         self.resource_manager = ResourceManager(self)
         self.turn_manager = TurnManager(self)
         self.unit_manager = UnitManager(self)
+        
+        self.turn_manager.turn_ended.connect(self.economy_manager.on_turn_end)
         
         self.extra_tabs = []
         
@@ -47,7 +52,7 @@ class ManitaeGame(QtCore.QObject):
         unit = self.main_window.ui.widget.ui.buildComboBox.currentText()
         try:
             self.unit_manager.build(unit)
-        except NoMoreWorkersError as e:
+        except (NoMoreWorkersError, OutOfMoneyError) as e:
             self.logger.append_warning(str(e))
     
     def end_turn(self):
@@ -57,6 +62,7 @@ class ManitaeGame(QtCore.QObject):
         for x in self.extra_tabs:
             self.main_window.ui.tabWidget.removeTab(self.main_window.ui.tabWidget.indexOf(x))
         del self.extra_tabs
+        del self.economy_manager
         del self.population_manager
         del self.resource_manager
         del self.turn_manager
@@ -66,9 +72,12 @@ class ManitaeGame(QtCore.QObject):
         self.turn_manager = TurnManager(self)
         self.logger.append_notice("New game started.")
         
+        self.economy_manager = EconomyManager(self)
         self.population_manager = PopulationManager(self)
         self.resource_manager = ResourceManager(self)
         self.unit_manager = UnitManager(self)
+        
+        self.turn_manager.turn_ended.connect(self.economy_manager.on_turn_end)
         
         self.extra_tabs = []
         

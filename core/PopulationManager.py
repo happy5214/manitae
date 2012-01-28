@@ -1,8 +1,10 @@
 import pkgutil
 
-from PyQt4 import QtCore
+from PyQt4 import QtCore, QtGui
+from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
 
 from ManitaeGame import *
+from Person import *
 import people
 
 class PopulationManager(QtCore.QObject):
@@ -13,12 +15,13 @@ class PopulationManager(QtCore.QObject):
         self.setup_population_types()
         self.setup_basic_population()
         self.employed = 0
+        Person.id_inc = 1
         
         self.game.main_window.ui.widget.ui.totalPopulation.setText(str(len(self.population)))
         self.game.main_window.ui.widget.ui.workingPopulation.setText(str(self.employed))
     
     def setup_population_types(self):
-        """Sets up the resource_types list."""
+        """Sets up the population_types list."""
         self.population_types = []
         for x in pkgutil.walk_packages(['people']):
             if not(x[1].startswith('ui_')):
@@ -30,9 +33,13 @@ class PopulationManager(QtCore.QObject):
         self.population = []
         for x in range(5):
             self.population.append(people.Citizen.Citizen())
+        self.population.append(people.Gatherer.Gatherer())
+        self.population.append(people.Hunter.Hunter())
+        self.population.append(people.WoodGatherer.WoodGatherer())
         
     def allocate_employee_to_unit(self, unit, number):
         emp_count = 0
+        self.population.sort(key=Person.key, reverse=True)
         for person in self.population:
             if (person.TYPE in unit.employee_types) and not(person.employer):
                 unit.employees.append(person)
@@ -41,4 +48,36 @@ class PopulationManager(QtCore.QObject):
             if (emp_count == number):
                 break
         self.employed += emp_count
+        self.update_eligible_workers(unit)
+        for u in self.game.unit_manager.units:
+            self.update_eligible_workers(u)
         self.game.main_window.ui.widget.ui.workingPopulation.setText(str(self.employed))
+    
+    @pyqtProperty(dict)
+    def str_to_person(self):
+        temp = {}
+        for p in self.population:
+            temp[str(p)] = p
+        return temp
+    
+    def employee_fired(self, amount):
+        self.employed -= amount
+        for x in self.game.unit_manager.units:
+            self.update_eligible_workers(x)
+        self.game.main_window.ui.widget.ui.workingPopulation.setText(str(self.employed))
+    
+    def employee_hired(self, amount):
+        self.employed += amount
+        for x in self.game.unit_manager.units:
+            self.update_eligible_workers(x)
+        self.game.main_window.ui.widget.ui.workingPopulation.setText(str(self.employed))
+    
+    def update_eligible_workers(self, unit):
+        elig_pop_list = []
+        elig_pop_str_list = []
+        for person in self.population:
+            if (person.TYPE in unit.employee_types) and not(person.employer):
+                elig_pop_list.append(person)
+        for person in elig_pop_list:
+            elig_pop_str_list.append(str(person))
+        unit.hirable_model.setStringList(elig_pop_str_list)

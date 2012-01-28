@@ -2,27 +2,27 @@ from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
 from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox
 
 from core.Producer import *
-from ui_Gatherer import Ui_Gatherer
+from ui_WoodGatherer import Ui_WoodGatherer
 
-class Gatherer(Producer):
+class WoodGatherer(Producer):
     
-    UNIT = "Gatherer"
+    UNIT = "Wood Gatherer"
     
-    employee_types = ['Citizen', 'Gatherer']
-    employee_efficiency = {'Citizen': 2, 'Gatherer': 3}
-    employee_salary = {'Citizen': 7.50, 'Gatherer': 10.00}
+    employee_types = ['Citizen', 'Wood Gatherer']
+    employee_efficiency = {'Citizen': 2, 'Wood Gatherer': 3}
+    employee_salary = {'Citizen': 7.50, 'Wood Gatherer': 10.00}
     employee_max = 1
     
     construction_cost = 20
     
     def __init__(self):
-        super(Gatherer, self).__init__()
+        super(WoodGatherer, self).__init__()
         self.employees = []
         self._production_on = False
         self.employee_model = QStringListModel()
         self.hirable_model = QStringListModel()
         
-        self.ui = Ui_Gatherer()
+        self.ui = Ui_WoodGatherer()
         self.widget = QWidget()
         self.ui.setupUi(self.widget)
         
@@ -38,7 +38,7 @@ class Gatherer(Producer):
     
     def on_turn_end(self, turn_number):
         if self.production_on:
-            self.change_primitive_resource.emit("Food", self.production_rate)
+            self.change_primitive_resource.emit("Wood", self.production_rate)
     
     def ready_for_allocation(self):
         self.needs_employee.emit(self, 1)
