@@ -1,12 +1,13 @@
 from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
 from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox
 
-from core.Producer import *
-from ui_WoodGatherer import Ui_WoodGatherer
+from core.PrimitiveProducer import *
+from ui_PrimitiveProducer import Ui_PrimitiveProducer
 
-class WoodGatherer(Producer):
+class WoodGatherer(PrimitiveProducer):
     
     UNIT = "Wood Gatherer"
+    level = 1
     
     employee_types = ['Citizen', 'Wood Gatherer']
     employee_efficiency = {'Citizen': 2, 'Wood Gatherer': 3}
@@ -22,10 +23,13 @@ class WoodGatherer(Producer):
         self.employee_model = QStringListModel()
         self.hirable_model = QStringListModel()
         
-        self.ui = Ui_WoodGatherer()
+        self.ui = Ui_PrimitiveProducer()
         self.widget = QWidget()
         self.ui.setupUi(self.widget)
         
+        self.ui.typeLineEdit.setText(self.UNIT)
+        self.ui.levelLineEdit.setText(str(self.level))
+        self.ui.nameLineEdit.textEdited.connect(self.name_changed)
         self.ui.fireComboBox.setModel(self.employee_model)
         self.ui.fireButton.clicked.connect(self.fire_employee)
         self.ui.hireComboBox.setModel(self.hirable_model)
@@ -63,6 +67,13 @@ class WoodGatherer(Producer):
     def production_rate(self):
         return self.employee_efficiency[self.employees[0].TYPE]
     
+    @pyqtProperty(dict)
+    def emp_to_salary(self):
+        try:
+            return {self.employees[0]: self.employee_salary[self.employees[0].TYPE]}
+        except IndexError:
+            return {}
+    
     @pyqtProperty(float)
     def salary(self):
         if self.production_on:
@@ -85,7 +96,9 @@ class WoodGatherer(Producer):
         try:
             self.salary_changed.emit(self.salary)
             self.ui.salaryLineEdit.setText(self.display_money(self.salary))
-        except IndexError as e:
+            for emp in self.employees:
+                emp.employer_production_switched()
+        except IndexError:
             pass
     
     @pyqtSlot(bool)
@@ -93,6 +106,7 @@ class WoodGatherer(Producer):
         self.production_on = checked
     
     def destroy(self):
+        self.production_on = False
         self.to_be_destroyed.emit()
     
     def fire_employee(self):
@@ -114,3 +128,11 @@ class WoodGatherer(Producer):
         self.ui.employeeLineEdit.setText(str(self.employee_count))
         self.employee_model.setStringList(self.employee_string_list)
         self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+    
+    def get_salary(self, unit):
+        return self.salary
+    
+    def name_changed(self, new_name):
+        self.name = str(new_name)
+        self.employees[0].ui.employerLineEdit.setText(str(self))
+    

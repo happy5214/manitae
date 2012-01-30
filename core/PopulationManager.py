@@ -36,6 +36,10 @@ class PopulationManager(QtCore.QObject):
         self.population.append(people.Gatherer.Gatherer())
         self.population.append(people.Hunter.Hunter())
         self.population.append(people.WoodGatherer.WoodGatherer())
+        for pop in self.population:
+            self.game.main_window.ui.peopleTabWidget.addTab(pop.widget, pop.TYPE)
+            self.game.turn_manager.turn_ended.connect(pop.on_turn_end)
+            pop.name_changed_sig.connect(self.person_name_changed)
         
     def allocate_employee_to_unit(self, unit, number):
         emp_count = 0
@@ -81,3 +85,10 @@ class PopulationManager(QtCore.QObject):
         for person in elig_pop_list:
             elig_pop_str_list.append(str(person))
         unit.hirable_model.setStringList(elig_pop_str_list)
+    
+    def person_name_changed(self):
+        for x in self.game.unit_manager.units:
+            self.update_eligible_workers(x)
+            x.employee_model.setStringList(x.employee_string_list)
+        self.game.main_window.ui.peopleTabWidget.setTabText(self.game.main_window.ui.peopleTabWidget.indexOf(self.sender().widget), self.sender().name)
+    

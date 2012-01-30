@@ -19,6 +19,7 @@ class UnitManager(QtCore.QObject):
         self.setup_unit_types()
         self.units = []
         self.unit_type_model = QtGui.QStringListModel(self.unit_types)
+        Unit.id_inc = 1
     
     def build(self, unit_to_build):
         unit_to_build_clean = unit_to_build.replace(' ', '')
@@ -40,7 +41,7 @@ class UnitManager(QtCore.QObject):
             except NoMoreWorkersError as e:
                 del unit
                 raise e
-        
+        unit.name_changed_sig.connect(self.unit_name_changed)
         self.units.append(unit)
         self.game.logger.append_notice("{0} built.".format(unit.UNIT))
         self.game.add_tab(unit.widget, unit.UNIT)
@@ -80,3 +81,6 @@ class UnitManager(QtCore.QObject):
         self.game.main_window.ui.tabWidget.removeTab(self.game.main_window.ui.tabWidget.indexOf(widget))
         self.game.logger.append_notice("{0} destroyed.".format(unit.UNIT))
         del unit
+    
+    def unit_name_changed(self):
+        self.game.main_window.ui.tabWidget.setTabText(self.game.main_window.ui.tabWidget.indexOf(self.sender().widget), self.sender().name)

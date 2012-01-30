@@ -6,14 +6,16 @@ from Person import *
 
 from OutOfMoneyError import *
 
-class EconomyManager(QtCore.QObject):
+class EconomyManager(QtCore.QObject): 
     
     def __init__(self, game):
         super(EconomyManager, self).__init__()
         self.game = game
         self._total_money = 250.0
+        self.basic_tax_rate = 0.05
         self._total_revenue = 0.0
         self.unit_salaries = {}
+        self.emp_salaries = {}
         self._construction_costs = 0.0
         
         self.game.main_window.ui.widget.ui.totalMoney.setText(self.display_money(self.total_money))
@@ -38,6 +40,13 @@ class EconomyManager(QtCore.QObject):
     def display_money(self, amount):
         return "{:.2f}".format(amount)
     
+    @pyqtProperty(dict)
+    def income_taxes(self):
+        temp = {}
+        for k,v in self.emp_salaries.items():
+            temp[k] = k.income_tax
+        return temp
+    
     @pyqtProperty(float)
     def total_money(self):
         return self._total_money
@@ -48,8 +57,13 @@ class EconomyManager(QtCore.QObject):
         self.game.main_window.ui.widget.ui.totalMoney.setText(self.display_money(self._total_money))
     
     @pyqtProperty(float)
+    def tax_revenue(self):
+        taxes = self.income_taxes.values()
+        return sum(taxes)
+    
+    @pyqtProperty(float)
     def total_revenue(self):
-        return self._total_revenue
+        return self.tax_revenue
     
     @pyqtProperty(float)
     def total_expenses(self):
@@ -79,6 +93,9 @@ class EconomyManager(QtCore.QObject):
     def unit_salary_changed(self, new_salary):
         unit = self.sender()
         self.unit_salaries[unit] = new_salary
+        self.emp_salaries.update(unit.emp_to_salary)
+        
+        self.game.main_window.ui.widget.ui.taxRevenue.setText(self.display_money(self.tax_revenue))
         self.game.main_window.ui.widget.ui.workersSalary.setText(self.display_money(self.salaries))
         self.game.main_window.ui.widget.ui.totalExpenses.setText(self.display_money(self.total_expenses))
         self.game.main_window.ui.widget.ui.totalProfit.setText(self.display_money(self.total_profit))
@@ -89,6 +106,7 @@ class EconomyManager(QtCore.QObject):
         
         self.construction_costs = 0.0
         
+        self.game.main_window.ui.widget.ui.taxRevenue.setText(self.display_money(self.tax_revenue))
         self.game.main_window.ui.widget.ui.workersSalary.setText(self.display_money(self.salaries))
         self.game.main_window.ui.widget.ui.constructionCosts.setText(self.display_money(self.construction_costs))
         self.game.main_window.ui.widget.ui.totalExpenses.setText(self.display_money(self.total_expenses))

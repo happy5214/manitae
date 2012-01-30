@@ -19,10 +19,11 @@ class ManitaeGame(QtCore.QObject):
         self.logger.send_entry.connect(self.add_log_entry)
         self.logger.append_notice("New game started.")
         
+        self.turn_manager = TurnManager(self)
+        
         self.economy_manager = EconomyManager(self)
         self.population_manager = PopulationManager(self)
         self.resource_manager = ResourceManager(self)
-        self.turn_manager = TurnManager(self)
         self.unit_manager = UnitManager(self)
         
         self.turn_manager.turn_ended.connect(self.economy_manager.on_turn_end)
