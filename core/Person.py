@@ -1,17 +1,21 @@
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
+from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot, QObject
+from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox
 
 from core.Unit import Unit
 
+import people
 from people.ui_Person import Ui_Person
 
-class Person(QtCore.QObject):
+class Person(QObject):
     
     TYPE = "Person"
     level = -1
     id_inc = 1
+    level_up_types = []
     
     name_changed_sig = pyqtSignal()
+    send_notice = pyqtSignal(str)
+    send_warning = pyqtSignal(str)
     
     def __init__(self):
         super(Person, self).__init__()
@@ -21,12 +25,19 @@ class Person(QtCore.QObject):
         self._total_expenses = 0.0
         self._net_worth = 0.0
         self._name = ''
+        self.experience = {}
         self.shelter = None
+        self.level_up_type_model = QStringListModel(self.level_up_types)
+        self.exp_type_model = QStringListModel(self.exp_types)
         
         self.ui = Ui_Person()
-        self.widget = QtGui.QWidget()
+        self.widget = QWidget()
         self.ui.setupUi(self.widget)
         
+        self.ui.upgradeComboBox.setModel(self.level_up_type_model)
+        self.ui.upgradePushButton.clicked.connect(self.upgrade)
+        self.ui.expComboBox.setModel(self.exp_type_model)
+        self.ui.expComboBox.activated[str].connect(self.update_experience_widget)
         self.ui.nameLineEdit.textEdited.connect(self.name_changed)
         self.ui.typeLineEdit.setText(self.TYPE)
         self.ui.levelLineEdit.setText(str(self.level))
@@ -52,6 +63,10 @@ class Person(QtCore.QObject):
         self.ui.salaryLineEdit.setText(self.display_money(self.salary))
         self.ui.taxesLineEdit.setText(self.display_money(self.income_tax))
         self.ui.netLineEdit.setText(self.display_money(self.net))
+    
+    @pyqtProperty(list)
+    def exp_types(self):
+        return self.experience.keys()
     
     @pyqtProperty(str)
     def name(self):
@@ -110,6 +125,41 @@ class Person(QtCore.QObject):
         self.ui.salaryLineEdit.setText(self.display_money(self.salary))
         self.ui.taxesLineEdit.setText(self.display_money(self.income_tax))
         self.ui.netLineEdit.setText(self.display_money(self.net))
+    
+    def gain_experience(self, exp_type, amount):
+        try:
+            self.experience[exp_type] += amount
+        except KeyError:
+            self.experience[exp_type] = amount
+            self.exp_type_model.setStringList(self.exp_types)
+        finally:
+            self.update_experience_widget_after_turn(exp_type)
+    
+    def upgrade(self):
+        person_type = self.ui.upgradeComboBox.currentText()
+        if not(person_type):
+            return
+        person_type_clean = person_type.replace(' ', '')
+        upgrade_check, error = eval("people.{0}.{0}.upgrade_to(self)".format(person_type_clean))
+        if not(upgrade_check):
+            self.send_warning.emit("Could not upgrade person {0}: {1}".format(str(self), error))
+        else:
+            self.name_changed_sig.emit()
+            self.employer.employee_upgraded(self)
+    
+    @pyqtSlot()
+    def refresh_level_up_type_model(self):
+        self.level_up_type_model.setStringList(self.level_up_types)
+    
+    def update_experience_widget(self, exp_type):
+        exp_amount = self.experience[str(exp_type)]
+        self.ui.expLineEdit.setText(str(exp_amount))
+    
+    def update_experience_widget_after_turn(self, exp_changed):
+        exp_type = self.ui.expComboBox.currentText()
+        if str(exp_type) == str(exp_changed):
+            exp_amount = self.experience[str(exp_type)]
+            self.ui.expLineEdit.setText(str(exp_amount))
     
     def display_money(self, amount):
         return "{:.2f}".format(amount)

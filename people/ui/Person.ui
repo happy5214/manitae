@@ -61,6 +61,27 @@
         </property>
        </widget>
       </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Experience</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QComboBox" name="expComboBox"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="expLineEdit">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item row="4" column="0">
        <widget class="QLabel" name="label_11">
         <property name="text">
@@ -75,20 +96,6 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_12">
-        <property name="text">
-         <string>Experience</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="expLineEdit">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -98,6 +105,23 @@
       <string>Finances</string>
      </property>
      <layout class="QFormLayout" name="formLayout_2">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::ExpandingFieldsGrow</enum>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Net Worth</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="netWorthLineEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
@@ -196,39 +220,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_13">
-        <property name="text">
-         <string>Net Worth</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="netWorthLineEdit">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
-     <zorder>groupBox</zorder>
-     <zorder>label</zorder>
-     <zorder>label</zorder>
-     <zorder>salaryLineEdit</zorder>
-     <zorder>label_2</zorder>
-     <zorder>otherIncomeLineEdit</zorder>
-     <zorder>label_4</zorder>
-     <zorder>totalIncomeLineEdit</zorder>
-     <zorder>label_7</zorder>
-     <zorder>taxesLineEdit</zorder>
-     <zorder>label_8</zorder>
-     <zorder>supplyLineEdit</zorder>
-     <zorder>label_9</zorder>
-     <zorder>otherExpensesLineEdit</zorder>
-     <zorder>label_10</zorder>
-     <zorder>netLineEdit</zorder>
-     <zorder>label_13</zorder>
-     <zorder>netWorthLineEdit</zorder>
     </widget>
    </item>
    <item>
@@ -237,12 +229,26 @@
       <string>Actions</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+      <item row="3" column="1">
        <widget class="QPushButton" name="findShelterPushButton">
         <property name="text">
          <string>Find Shelter</string>
         </property>
        </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QComboBox" name="upgradeComboBox"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="upgradePushButton">
+          <property name="text">
+           <string>Upgrade</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>

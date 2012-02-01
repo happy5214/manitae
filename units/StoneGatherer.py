@@ -4,20 +4,20 @@ from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox
 from core.PrimitiveProducer import *
 from ui_PrimitiveProducer import Ui_PrimitiveProducer
 
-class Gatherer(PrimitiveProducer):
+class StoneGatherer(PrimitiveProducer):
     
-    UNIT = "Gatherer"
+    UNIT = "Stone Gatherer"
     level = 1
     
-    employee_types = ['Citizen', 'Gatherer']
-    employee_efficiency = {'Citizen': 2, 'Gatherer': 3}
-    employee_salary = {'Citizen': 7.50, 'Gatherer': 10.00}
+    employee_types = ['Citizen', 'Stone Gatherer']
+    employee_efficiency = {'Citizen': 2, 'Stone Gatherer': 3}
+    employee_salary = {'Citizen': 7.50, 'Stone Gatherer': 10.00}
     employee_max = 1
     
     construction_cost = 20
     
     def __init__(self):
-        super(Gatherer, self).__init__()
+        super(StoneGatherer, self).__init__()
         self.employees = []
         self._production_on = False
         self.employee_model = QStringListModel()
@@ -42,8 +42,8 @@ class Gatherer(PrimitiveProducer):
     
     def on_turn_end(self, turn_number):
         if self.production_on:
-            self.change_primitive_resource.emit("Food", self.production_rate)
-            self.employees[0].gain_experience("Gatherer", 1)
+            self.change_primitive_resource.emit("Stone", self.production_rate)
+            self.employees[0].gain_experience("Stone Gatherer", 1)
     
     def ready_for_allocation(self):
         self.needs_employee.emit(self, 1)
@@ -74,6 +74,13 @@ class Gatherer(PrimitiveProducer):
         except (IndexError, KeyError):
             return 0
     
+    @pyqtProperty(dict)
+    def emp_to_salary(self):
+        try:
+            return {self.employees[0]: self.employee_salary[self.employees[0].TYPE]}
+        except IndexError:
+            return {}
+    
     @pyqtProperty(float)
     def salary(self):
         try:
@@ -83,13 +90,6 @@ class Gatherer(PrimitiveProducer):
                 return 0.0
         except (IndexError, KeyError):
             return 0.0
-    
-    @pyqtProperty(dict)
-    def emp_to_salary(self):
-        try:
-            return {self.employees[0]: self.employee_salary[self.employees[0].TYPE]}
-        except IndexError:
-            return {}
     
     @pyqtProperty(int)
     def employee_count(self):

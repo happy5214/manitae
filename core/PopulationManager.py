@@ -9,6 +9,8 @@ import people
 
 class PopulationManager(QtCore.QObject):
     
+    level_ups_ready = pyqtSignal()
+    
     def __init__(self, game):
         super(PopulationManager, self).__init__()
         self.game = game
@@ -19,6 +21,10 @@ class PopulationManager(QtCore.QObject):
         
         self.game.main_window.ui.widget.ui.totalPopulation.setText(str(len(self.population)))
         self.game.main_window.ui.widget.ui.workingPopulation.setText(str(self.employed))
+    
+    def __del__(self):
+        for x in self.population:
+            self.game.main_window.ui.peopleTabWidget.removeTab(self.game.main_window.ui.peopleTabWidget.indexOf(x.widget))
     
     def setup_population_types(self):
         """Sets up the population_types list."""
@@ -32,14 +38,15 @@ class PopulationManager(QtCore.QObject):
     def setup_basic_population(self):
         self.population = []
         for x in range(5):
-            self.population.append(people.Citizen.Citizen())
-        self.population.append(people.Gatherer.Gatherer())
-        self.population.append(people.Hunter.Hunter())
-        self.population.append(people.WoodGatherer.WoodGatherer())
-        for pop in self.population:
-            self.game.main_window.ui.peopleTabWidget.addTab(pop.widget, pop.TYPE)
+            pop = people.Citizen.Citizen()
+            self.population.append(pop)
+            self.game.main_window.ui.peopleTabWidget.addTab(pop.widget, str(pop))
             self.game.turn_manager.turn_ended.connect(pop.on_turn_end)
             pop.name_changed_sig.connect(self.person_name_changed)
+            pop.send_notice.connect(self.game.logger.append_notice)
+            pop.send_warning.connect(self.game.logger.append_warning)
+            self.level_ups_ready.connect(pop.refresh_level_up_type_model)
+        self.level_one_people()
         
     def allocate_employee_to_unit(self, unit, number):
         emp_count = 0
@@ -86,9 +93,17 @@ class PopulationManager(QtCore.QObject):
             elig_pop_str_list.append(str(person))
         unit.hirable_model.setStringList(elig_pop_str_list)
     
+    def level_one_people(self):
+        elig_pop_type_list = []
+        for person_type in self.population_types:
+            if (eval("people.{0}.{0}.level".format(person_type)) == 1):
+                elig_pop_type_list.append(eval("people.{0}.{0}.TYPE".format(person_type)))
+        people.Citizen.Citizen.level_up_types = elig_pop_type_list
+        self.level_ups_ready.emit()
+    
     def person_name_changed(self):
         for x in self.game.unit_manager.units:
             self.update_eligible_workers(x)
             x.employee_model.setStringList(x.employee_string_list)
-        self.game.main_window.ui.peopleTabWidget.setTabText(self.game.main_window.ui.peopleTabWidget.indexOf(self.sender().widget), self.sender().name)
+        self.game.main_window.ui.peopleTabWidget.setTabText(self.game.main_window.ui.peopleTabWidget.indexOf(self.sender().widget), str(self.sender()))
     

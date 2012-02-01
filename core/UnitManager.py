@@ -42,9 +42,11 @@ class UnitManager(QtCore.QObject):
                 del unit
                 raise e
         unit.name_changed_sig.connect(self.unit_name_changed)
+        unit.send_notice.connect(self.game.logger.append_notice)
+        unit.send_warning.connect(self.game.logger.append_warning)
         self.units.append(unit)
         self.game.logger.append_notice("{0} built.".format(unit.UNIT))
-        self.game.add_tab(unit.widget, unit.UNIT)
+        self.game.add_tab(unit.widget, str(unit))
     
     def setup_unit_types(self):
         self.unit_types = []
@@ -83,4 +85,4 @@ class UnitManager(QtCore.QObject):
         del unit
     
     def unit_name_changed(self):
-        self.game.main_window.ui.tabWidget.setTabText(self.game.main_window.ui.tabWidget.indexOf(self.sender().widget), self.sender().name)
+        self.game.main_window.ui.tabWidget.setTabText(self.game.main_window.ui.tabWidget.indexOf(self.sender().widget), str(self.sender()))

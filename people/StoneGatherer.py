@@ -1,19 +1,19 @@
 from Citizen import *
 
-class WoodGatherer(Citizen):
+class StoneGatherer(Citizen):
     
-    TYPE = "Wood Gatherer"
+    TYPE = "Stone Gatherer"
     level = 1
     level_up_types = []
-    upgrade_exp_reqs = {'Wood Gatherer': 10, 'Lumberjack': 10}
+    upgrade_exp_reqs = {'Stone Gatherer': 10, 'Quarryman': 10}
     
     def __init__(self):
-        super(WoodGatherer, self).__init__()
+        super(StoneGatherer, self).__init__()
     
     @staticmethod
     def upgrade_to(person):
         conditions_met = False
-        for k,v in WoodGatherer.upgrade_exp_reqs.items():
+        for k,v in StoneGatherer.upgrade_exp_reqs.items():
             try:
                 if person.experience[k] >= v:
                     conditions_met = True
@@ -21,9 +21,9 @@ class WoodGatherer(Citizen):
             except KeyError:
                 pass
         if (conditions_met):
-            person.__class__ = WoodGatherer
+            person.__class__ = StoneGatherer
             
-            person.level_up_type_model.setStringList(WoodGatherer.level_up_types)
+            person.level_up_type_model.setStringList(StoneGatherer.level_up_types)
             person.ui.typeLineEdit.setText(person.TYPE)
             person.ui.levelLineEdit.setText(str(person.level))
             person.ui.netWorthLineEdit.setText(person.display_money(person._net_worth))

@@ -9,6 +9,8 @@ class Unit(QtCore.QObject):
     
     change_primitive_resource = pyqtSignal('QString', int)
     name_changed_sig = pyqtSignal()
+    send_notice = pyqtSignal(str)
+    send_warning = pyqtSignal(str)
     to_be_destroyed = pyqtSignal()
     
     def __init__(self):

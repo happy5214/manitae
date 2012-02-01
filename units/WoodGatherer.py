@@ -43,6 +43,7 @@ class WoodGatherer(PrimitiveProducer):
     def on_turn_end(self, turn_number):
         if self.production_on:
             self.change_primitive_resource.emit("Wood", self.production_rate)
+            self.employees[0].gain_experience("Wood Gatherer", 1)
     
     def ready_for_allocation(self):
         self.needs_employee.emit(self, 1)
@@ -65,7 +66,13 @@ class WoodGatherer(PrimitiveProducer):
     
     @pyqtProperty(int)
     def production_rate(self):
-        return self.employee_efficiency[self.employees[0].TYPE]
+        try:
+            if self.production_on:
+                return self.employee_efficiency[self.employees[0].TYPE]
+            else:
+                return 0
+        except (IndexError, KeyError):
+            return 0
     
     @pyqtProperty(dict)
     def emp_to_salary(self):
@@ -76,9 +83,12 @@ class WoodGatherer(PrimitiveProducer):
     
     @pyqtProperty(float)
     def salary(self):
-        if self.production_on:
-            return self.employee_salary[self.employees[0].TYPE]
-        else:
+        try:
+            if self.production_on:
+                return self.employee_salary[self.employees[0].TYPE]
+            else:
+                return 0.0
+        except (IndexError, KeyError):
             return 0.0
     
     @pyqtProperty(int)
@@ -96,6 +106,7 @@ class WoodGatherer(PrimitiveProducer):
         try:
             self.salary_changed.emit(self.salary)
             self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+            self.ui.prodLevelLineEdit.setText(str(self.production_rate))
             for emp in self.employees:
                 emp.employer_production_switched()
         except IndexError:
@@ -111,23 +122,37 @@ class WoodGatherer(PrimitiveProducer):
     
     def fire_employee(self):
         if self.employee_count == 0:
-            QMessageBox.warning(self.widget, "Unable to fire employee", "This unit has no employees.")
+            self.send_warning.emit("Unable to fire employee from unit {0}: this unit has no employees.".format(str(self)))
             return
         emp_str = self.ui.fireComboBox.currentText()
         self.employee_fired.emit(emp_str)
         self.ui.employeeLineEdit.setText(str(self.employee_count))
         self.employee_model.setStringList(self.employee_string_list)
         self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+        self.ui.prodLevelLineEdit.setText(str(self.production_rate))
     
     def hire_employee(self):
         if self.employee_count == self.employee_max:
-            QMessageBox.warning(self.widget, "Unable to hire employee", "This unit has the maximum number of employees.")
+            self.send_warning.emit("Unable to hire employee from unit {0}: this unit has the maximum number of employees.".format(str(self)))
             return
         emp_str = self.ui.hireComboBox.currentText()
         self.employee_hired.emit(emp_str)
         self.ui.employeeLineEdit.setText(str(self.employee_count))
         self.employee_model.setStringList(self.employee_string_list)
         self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+        self.ui.prodLevelLineEdit.setText(str(self.production_rate))
+    
+    def employee_upgraded(self, emp):
+        if (emp.TYPE not in self.employee_types):
+            emp_str = str(emp)
+            self.employee_fired.emit(emp_str)
+            self.ui.employeeLineEdit.setText(str(self.employee_count))
+            self.employee_model.setStringList(self.employee_string_list)
+            self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+            self.ui.prodLevelLineEdit.setText(str(self.production_rate))
+        else:
+            self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+            self.ui.prodLevelLineEdit.setText(str(self.production_rate))
     
     def get_salary(self, unit):
         return self.salary
