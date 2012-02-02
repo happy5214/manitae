@@ -1,3 +1,20 @@
+#   Copyright (C) 2012 Alexander Jones
+#
+#   This file is part of Manitae.
+#
+#   Manitae is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   Manitae is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with Manitae.  If not, see <http://www.gnu.org/licenses/>.
+
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import pyqtProperty, pyqtSignal, pyqtSlot
 
@@ -13,12 +30,12 @@ class EconomyManager(QtCore.QObject):
         self.game = game
         self._total_money = 250.0
         self.basic_tax_rate = 0.05
-        self._total_revenue = 0.0
         self.unit_salaries = {}
         self.emp_salaries = {}
         self._construction_costs = 0.0
         
         self.game.main_window.ui.widget.ui.totalMoney.setText(self.display_money(self.total_money))
+        self.game.main_window.ui.widget.ui.taxRevenue.setText(self.display_money(self.tax_revenue))
         self.game.main_window.ui.widget.ui.totalRevenue.setText(self.display_money(self.total_revenue))
         self.game.main_window.ui.widget.ui.workersSalary.setText(self.display_money(self.salaries))
         self.game.main_window.ui.widget.ui.constructionCosts.setText(self.display_money(self.construction_costs))
@@ -94,8 +111,11 @@ class EconomyManager(QtCore.QObject):
         unit = self.sender()
         self.unit_salaries[unit] = new_salary
         self.emp_salaries.update(unit.emp_to_salary)
+        for emp in unit.employees:
+            emp.employer_production_switched()
         
         self.game.main_window.ui.widget.ui.taxRevenue.setText(self.display_money(self.tax_revenue))
+        self.game.main_window.ui.widget.ui.totalRevenue.setText(self.display_money(self.total_revenue))
         self.game.main_window.ui.widget.ui.workersSalary.setText(self.display_money(self.salaries))
         self.game.main_window.ui.widget.ui.totalExpenses.setText(self.display_money(self.total_expenses))
         self.game.main_window.ui.widget.ui.totalProfit.setText(self.display_money(self.total_profit))
@@ -107,6 +127,7 @@ class EconomyManager(QtCore.QObject):
         self.construction_costs = 0.0
         
         self.game.main_window.ui.widget.ui.taxRevenue.setText(self.display_money(self.tax_revenue))
+        self.game.main_window.ui.widget.ui.totalRevenue.setText(self.display_money(self.total_revenue))
         self.game.main_window.ui.widget.ui.workersSalary.setText(self.display_money(self.salaries))
         self.game.main_window.ui.widget.ui.constructionCosts.setText(self.display_money(self.construction_costs))
         self.game.main_window.ui.widget.ui.totalExpenses.setText(self.display_money(self.total_expenses))

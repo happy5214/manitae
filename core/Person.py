@@ -1,3 +1,20 @@
+#   Copyright (C) 2012 Alexander Jones
+#
+#   This file is part of Manitae.
+#
+#   Manitae is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   Manitae is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with Manitae.  If not, see <http://www.gnu.org/licenses/>.
+
 from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot, QObject
 from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox
 
@@ -16,6 +33,7 @@ class Person(QObject):
     name_changed_sig = pyqtSignal()
     send_notice = pyqtSignal(str)
     send_warning = pyqtSignal(str)
+    upgraded = pyqtSignal()
     
     def __init__(self):
         super(Person, self).__init__()
@@ -42,6 +60,10 @@ class Person(QObject):
         self.ui.typeLineEdit.setText(self.TYPE)
         self.ui.levelLineEdit.setText(str(self.level))
         self.ui.netWorthLineEdit.setText(self.display_money(self._net_worth))
+        self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+        self.ui.totalIncomeLineEdit.setText(self.display_money(self.total_income))
+        self.ui.taxesLineEdit.setText(self.display_money(self.income_tax))
+        self.ui.netLineEdit.setText(self.display_money(self.net))
     
     def __str__(self):
         if not(self.name):
@@ -61,6 +83,7 @@ class Person(QObject):
         self._employer = unit
         self.ui.employerLineEdit.setText(str(self._employer))
         self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+        self.ui.totalIncomeLineEdit.setText(self.display_money(self.total_income))
         self.ui.taxesLineEdit.setText(self.display_money(self.income_tax))
         self.ui.netLineEdit.setText(self.display_money(self.net))
     
@@ -96,7 +119,7 @@ class Person(QObject):
     @pyqtProperty(float)
     def salary(self):
         try:
-            return self._employer.get_salary(self)
+            return self._employer.emp_to_salary[self]
         except AttributeError:
             return 0.0
     
@@ -114,6 +137,7 @@ class Person(QObject):
     
     def employer_production_switched(self):
         self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+        self.ui.totalIncomeLineEdit.setText(self.display_money(self.total_income))
         self.ui.taxesLineEdit.setText(self.display_money(self.income_tax))
         self.ui.netLineEdit.setText(self.display_money(self.net))
     
@@ -123,6 +147,7 @@ class Person(QObject):
     def on_turn_end(self):
         self.net_worth += self.net
         self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+        self.ui.totalIncomeLineEdit.setText(self.display_money(self.total_income))
         self.ui.taxesLineEdit.setText(self.display_money(self.income_tax))
         self.ui.netLineEdit.setText(self.display_money(self.net))
     
@@ -145,6 +170,7 @@ class Person(QObject):
             self.send_warning.emit("Could not upgrade person {0}: {1}".format(str(self), error))
         else:
             self.name_changed_sig.emit()
+            self.upgraded.emit()
             self.employer.employee_upgraded(self)
     
     @pyqtSlot()
