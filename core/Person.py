@@ -59,6 +59,7 @@ class Person(QObject):
         self.ui.nameLineEdit.textEdited.connect(self.name_changed)
         self.ui.typeLineEdit.setText(self.TYPE)
         self.ui.levelLineEdit.setText(str(self.level))
+        self.ui.employerLineEdit.setText("Unemployed")
         self.ui.netWorthLineEdit.setText(self.display_money(self._net_worth))
         self.ui.salaryLineEdit.setText(self.display_money(self.salary))
         self.ui.totalIncomeLineEdit.setText(self.display_money(self.total_income))
@@ -81,7 +82,7 @@ class Person(QObject):
     @employer.setter
     def employer(self, unit):
         self._employer = unit
-        self.ui.employerLineEdit.setText(str(self._employer))
+        self.ui.employerLineEdit.setText(str(self._employer) if self._employer else "Unemployed")
         self.ui.salaryLineEdit.setText(self.display_money(self.salary))
         self.ui.totalIncomeLineEdit.setText(self.display_money(self.total_income))
         self.ui.taxesLineEdit.setText(self.display_money(self.income_tax))
@@ -120,7 +121,7 @@ class Person(QObject):
     def salary(self):
         try:
             return self._employer.emp_to_salary[self]
-        except AttributeError:
+        except (AttributeError, KeyError):
             return 0.0
     
     @pyqtProperty(float)
@@ -172,10 +173,6 @@ class Person(QObject):
             self.name_changed_sig.emit()
             self.upgraded.emit()
             self.employer.employee_upgraded(self)
-    
-    @pyqtSlot()
-    def refresh_level_up_type_model(self):
-        self.level_up_type_model.setStringList(self.level_up_types)
     
     def update_experience_widget(self, exp_type):
         exp_amount = self.experience[str(exp_type)]

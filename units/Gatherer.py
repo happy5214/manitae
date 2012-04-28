@@ -19,11 +19,31 @@ from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
 from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox
 
 from core.LevelOnePrimitiveProducer import *
+from core.SingleTileUnit import SingleTileUnit
+from maps.MapTile import *
 from ui_PrimitiveProducer import Ui_PrimitiveProducer
 
-class Gatherer(LevelOnePrimitiveProducer):
+class GathererTile(MapTile):
+    """:class:`maps.MapTile.MapTile` type for :class:`Gatherer`"""
+    buildable = False
+    tile = "./tiles/units/Gatherer/Gatherer32.png"
+    def __init__(self, color):
+        super(GathererTile, self).__init__(color)
+    
+
+class Gatherer(LevelOnePrimitiveProducer, SingleTileUnit):
+    """:class:`core.LevelOnePrimitiveProducer.LevelOnePrimitiveProducer` that produces :class:`resources.Food.Food`
+    
+    This unit type...
+    * costs N20.00 to construct.
+    * employs one person of the types :class:`people.Citizen.Citizen` and :class:`people.Gatherer.Gatherer`
+    * produces 2 :class:`resources.Food.Food` when employing a :class:`people.Citizen.Citizen`, at a salary of N7.50.
+    * produces 3 :class:`resources.Food.Food` when employing a :class:`people.Gatherer.Gatherer`, at a salary of N10.00.
+    * provides 1 unit of experience of type Gatherer upon completion of 1 turn of work.
+    * occupies a single tile."""
     
     UNIT = "Gatherer"
+    tile_type = GathererTile
     level = 1
     
     employee_types = ['Citizen', 'Gatherer']

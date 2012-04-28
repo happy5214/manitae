@@ -121,6 +121,7 @@ class LevelOnePrimitiveProducer(PrimitiveProducer):
             self.ui.prodLevelLineEdit.setText(str(self.production_rate))
             for emp in self.employees:
                 emp.employer_production_switched()
+            self.production_switched.emit()
         except IndexError:
             pass
     

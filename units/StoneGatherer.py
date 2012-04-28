@@ -18,12 +18,32 @@
 from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
 from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox
 
-from core.LevelOnePrimitiveProducer import *
+from core.LevelOnePrimitiveProducer import LevelOnePrimitiveProducer
+from core.SingleTileUnit import SingleTileUnit
+from maps.MapTile import *
 from ui_PrimitiveProducer import Ui_PrimitiveProducer
 
-class StoneGatherer(LevelOnePrimitiveProducer):
+class StoneGathererTile(MapTile):
+    """:class:`maps.MapTile.MapTile` type for :class:`StoneGatherer`"""
+    buildable = False
+    tile = "./tiles/units/StoneGatherer/StoneGatherer32.png"
+    def __init__(self, color):
+        super(StoneGathererTile, self).__init__(color)
+    
+
+class StoneGatherer(LevelOnePrimitiveProducer, SingleTileUnit):
+    """:class:`core.LevelOnePrimitiveProducer.LevelOnePrimitiveProducer` that produces :class:`resources.Stone.Stone`
+    
+    This unit type...
+    * costs N20.00 to construct.
+    * employs one person of the types :class:`people.Citizen.Citizen` and :class:`people.StoneGatherer.StoneGatherer`
+    * produces 2 :class:`resources.Stone.Stone` when employing a :class:`people.Citizen.Citizen`, at a salary of N7.50.
+    * produces 3 :class:`resources.Stone.Stone` when employing a :class:`people.StoneGatherer.StoneGatherer`, at a salary of N10.00.
+    * provides 1 unit of experience of type StoneGatherer upon completion of 1 turn of work.
+    * occupies a single tile."""
     
     UNIT = "Stone Gatherer"
+    tile_type = StoneGathererTile
     level = 1
     
     employee_types = ['Citizen', 'Stone Gatherer']

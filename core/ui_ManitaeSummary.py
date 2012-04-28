@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ManitaeSummary.ui'
 #
-# Created: Fri Jan 27 17:28:23 2012
+# Created: Fri Mar  2 07:54:29 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -153,22 +153,21 @@ class Ui_ManitaeSummary(object):
         self.totalExpenses.setReadOnly(True)
         self.totalExpenses.setObjectName(_fromUtf8("totalExpenses"))
         self.formLayout.setWidget(7, QtGui.QFormLayout.FieldRole, self.totalExpenses)
-        self.gridLayout.addWidget(self.groupBox_2, 0, 2, 1, 1)
+        self.gridLayout.addWidget(self.groupBox_2, 0, 1, 1, 1)
         self.groupBox_3 = QtGui.QGroupBox(ManitaeSummary)
         self.groupBox_3.setTitle(QtGui.QApplication.translate("ManitaeSummary", "Resources", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
-        self.formLayout_3 = QtGui.QFormLayout(self.groupBox_3)
-        self.formLayout_3.setFieldGrowthPolicy(QtGui.QFormLayout.ExpandingFieldsGrow)
-        self.formLayout_3.setObjectName(_fromUtf8("formLayout_3"))
+        self.gridLayout_5 = QtGui.QGridLayout(self.groupBox_3)
+        self.gridLayout_5.setObjectName(_fromUtf8("gridLayout_5"))
         self.resourceComboBox = QtGui.QComboBox(self.groupBox_3)
         self.resourceComboBox.setEditable(False)
         self.resourceComboBox.setObjectName(_fromUtf8("resourceComboBox"))
-        self.formLayout_3.setWidget(0, QtGui.QFormLayout.LabelRole, self.resourceComboBox)
+        self.gridLayout_5.addWidget(self.resourceComboBox, 0, 0, 1, 1)
         self.resourceLineEdit = QtGui.QLineEdit(self.groupBox_3)
         self.resourceLineEdit.setEnabled(True)
         self.resourceLineEdit.setReadOnly(True)
         self.resourceLineEdit.setObjectName(_fromUtf8("resourceLineEdit"))
-        self.formLayout_3.setWidget(0, QtGui.QFormLayout.FieldRole, self.resourceLineEdit)
+        self.gridLayout_5.addWidget(self.resourceLineEdit, 0, 1, 1, 1)
         self.gridLayout.addWidget(self.groupBox_3, 1, 0, 1, 1)
         self.groupBox_4 = QtGui.QGroupBox(ManitaeSummary)
         self.groupBox_4.setTitle(QtGui.QApplication.translate("ManitaeSummary", "Research", None, QtGui.QApplication.UnicodeUTF8))
@@ -183,54 +182,22 @@ class Ui_ManitaeSummary(object):
         self.gridLayout_4.addItem(spacerItem, 0, 0, 1, 1)
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.gridLayout_4.addItem(spacerItem1, 0, 2, 1, 1)
-        self.gridLayout.addWidget(self.groupBox_4, 1, 2, 1, 1)
-        self.groupBox_5 = QtGui.QGroupBox(ManitaeSummary)
-        self.groupBox_5.setTitle(QtGui.QApplication.translate("ManitaeSummary", "Notices", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_5.setObjectName(_fromUtf8("groupBox_5"))
-        self.gridLayout_6 = QtGui.QGridLayout(self.groupBox_5)
-        self.gridLayout_6.setObjectName(_fromUtf8("gridLayout_6"))
-        self.noticeLog = QtGui.QTextEdit(self.groupBox_5)
-        self.noticeLog.setEnabled(True)
-        self.noticeLog.setReadOnly(True)
-        self.noticeLog.setHtml(QtGui.QApplication.translate("ManitaeSummary", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This is a notice.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#c00000;\">This is a warning!</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Messages will appear below.</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Click on &quot;File&gt;New Game&quot; or press Ctrl+N to start.</p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
-        self.noticeLog.setObjectName(_fromUtf8("noticeLog"))
-        self.gridLayout_6.addWidget(self.noticeLog, 0, 0, 1, 1)
-        self.gridLayout.addWidget(self.groupBox_5, 0, 1, 1, 1)
-        self.groupBox_6 = QtGui.QGroupBox(ManitaeSummary)
-        self.groupBox_6.setTitle(QtGui.QApplication.translate("ManitaeSummary", "Build", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox_6.setObjectName(_fromUtf8("groupBox_6"))
-        self.gridLayout_3 = QtGui.QGridLayout(self.groupBox_6)
-        self.gridLayout_3.setObjectName(_fromUtf8("gridLayout_3"))
-        self.buildComboBox = QtGui.QComboBox(self.groupBox_6)
-        self.buildComboBox.setObjectName(_fromUtf8("buildComboBox"))
-        self.gridLayout_3.addWidget(self.buildComboBox, 0, 0, 1, 1)
-        self.buildPushButton = QtGui.QPushButton(self.groupBox_6)
-        self.buildPushButton.setText(QtGui.QApplication.translate("ManitaeSummary", "Build", None, QtGui.QApplication.UnicodeUTF8))
-        self.buildPushButton.setObjectName(_fromUtf8("buildPushButton"))
-        self.gridLayout_3.addWidget(self.buildPushButton, 0, 1, 1, 1)
-        self.gridLayout.addWidget(self.groupBox_6, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.groupBox_4, 1, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
 
         self.retranslateUi(ManitaeSummary)
         QtCore.QMetaObject.connectSlotsByName(ManitaeSummary)
         ManitaeSummary.setTabOrder(self.totalPopulation, self.workingPopulation)
         ManitaeSummary.setTabOrder(self.workingPopulation, self.taxedPopulation)
-        ManitaeSummary.setTabOrder(self.taxedPopulation, self.noticeLog)
-        ManitaeSummary.setTabOrder(self.noticeLog, self.totalMoney)
+        ManitaeSummary.setTabOrder(self.taxedPopulation, self.totalMoney)
         ManitaeSummary.setTabOrder(self.totalMoney, self.taxRevenue)
         ManitaeSummary.setTabOrder(self.taxRevenue, self.otherRevenue)
-        ManitaeSummary.setTabOrder(self.otherRevenue, self.workersSalary)
+        ManitaeSummary.setTabOrder(self.otherRevenue, self.totalRevenue)
+        ManitaeSummary.setTabOrder(self.totalRevenue, self.workersSalary)
         ManitaeSummary.setTabOrder(self.workersSalary, self.constructionCosts)
         ManitaeSummary.setTabOrder(self.constructionCosts, self.otherExpenses)
-        ManitaeSummary.setTabOrder(self.otherExpenses, self.totalProfit)
+        ManitaeSummary.setTabOrder(self.otherExpenses, self.totalExpenses)
+        ManitaeSummary.setTabOrder(self.totalExpenses, self.totalProfit)
         ManitaeSummary.setTabOrder(self.totalProfit, self.resourceComboBox)
         ManitaeSummary.setTabOrder(self.resourceComboBox, self.resourceLineEdit)
 

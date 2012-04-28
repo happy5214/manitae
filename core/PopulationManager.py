@@ -47,24 +47,31 @@ class PopulationManager(QtCore.QObject):
     
     def setup_population_types(self):
         """Sets up the population_types list."""
-        for x in pkgutil.walk_packages(['people']):
-            if not(x[1].startswith('ui_')):
-                self.population_types.append(x[1])
+        pop_types = self.game.scenario.register_person_types()
+        if not(pop_types):
+            for x in pkgutil.walk_packages(['people']):
+                if not(x[1].startswith('ui_')):
+                    self.population_types.append(x[1])
+        else:
+            self.population_types = pop_types
         for x in self.population_types:
             __import__("people." + x)
+        self.level_one_people()
     
     def setup_basic_population(self):
-        for x in range(5):
-            pop = people.Citizen.Citizen()
-            self.population.append(pop)
-            self.game.main_window.ui.peopleTabWidget.addTab(pop.widget, str(pop))
-            self.game.turn_manager.turn_ended.connect(pop.on_turn_end)
-            pop.name_changed_sig.connect(self.person_name_changed)
-            pop.send_notice.connect(self.game.logger.append_notice)
-            pop.send_warning.connect(self.game.logger.append_warning)
-            self.level_ups_ready.connect(pop.refresh_level_up_type_model)
-        self.level_one_people()
-        
+        if not(self.game.scenario.setup_basic_population(self)):
+            for x in range(5):
+                self.register_person(people.Citizen.Citizen)
+    
+    def register_person(self, person_type):
+        person = person_type()
+        self.population.append(person)
+        self.game.main_window.ui.peopleTabWidget.addTab(person.widget, str(person))
+        self.game.turn_manager.turn_ended.connect(person.on_turn_end)
+        person.name_changed_sig.connect(self.person_name_changed)
+        person.send_notice.connect(self.game.logger.append_notice)
+        person.send_warning.connect(self.game.logger.append_warning)
+    
     def allocate_employee_to_unit(self, unit, number):
         emp_count = 0
         self.population.sort(key=Person.key, reverse=True)
@@ -116,7 +123,6 @@ class PopulationManager(QtCore.QObject):
             if (eval("people.{0}.{0}.level".format(person_type)) == 1):
                 elig_pop_type_list.append(eval("people.{0}.{0}.TYPE".format(person_type)))
         people.Citizen.Citizen.level_up_types = elig_pop_type_list
-        self.level_ups_ready.emit()
     
     def person_name_changed(self):
         for x in self.game.unit_manager.units:

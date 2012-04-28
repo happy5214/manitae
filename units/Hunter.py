@@ -19,11 +19,31 @@ from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
 from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox
 
 from core.LevelOnePrimitiveProducer import *
+from core.SingleTileUnit import SingleTileUnit
+from maps.MapTile import *
 from ui_PrimitiveProducer import Ui_PrimitiveProducer
 
-class Hunter(LevelOnePrimitiveProducer):
+class HunterTile(MapTile):
+    """:class:`maps.MapTile.MapTile` type for :class:`Hunter`"""
+    buildable = False
+    tile = "./tiles/units/Hunter/Hunter32.png"
+    def __init__(self, color):
+        super(HunterTile, self).__init__(color)
+    
+
+class Hunter(LevelOnePrimitiveProducer, SingleTileUnit):
+    """:class:`core.LevelOnePrimitiveProducer.LevelOnePrimitiveProducer` that produces :class:`resources.Food.Food`
+    
+    This unit type...
+    * costs N20.00 to construct.
+    * employs one person of the types :class:`people.Citizen.Citizen` and :class:`people.Hunter.Hunter`
+    * produces 2 :class:`resources.Food.Food` when employing a :class:`people.Citizen.Citizen`, at a salary of N7.50.
+    * produces 3 :class:`resources.Food.Food` when employing a :class:`people.Hunter.Hunter`, at a salary of N10.00.
+    * provides 1 unit of experience of type Hunter upon completion of 1 turn of work.
+    * occupies a single tile."""
     
     UNIT = "Hunter"
+    tile_type = HunterTile
     level = 1
     
     employee_types = ['Citizen', 'Hunter']

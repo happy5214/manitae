@@ -20,6 +20,8 @@ from PyQt4 import QtGui, QtCore
 from ManitaeSummary import *
 from ManitaeGame import *
 
+from NoScenarioSelectedError import *
+
 from ui_ManitaeMainWindow import Ui_ManitaeMainWindow
 
 class ManitaeMainWindow(QtGui.QMainWindow):

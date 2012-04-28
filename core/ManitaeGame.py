@@ -20,10 +20,13 @@ from PyQt4 import QtGui, QtCore
 from ManitaeMainWindow import *
 from EconomyManager import *
 from ManitaeLogger import *
+from MapManager import *
 from PopulationManager import *
 from ResourceManager import *
+from ScenarioManager import *
 from TurnManager import *
 from UnitManager import *
+
 from NoMoreWorkersError import *
 from OutOfMoneyError import *
 
@@ -32,11 +35,15 @@ class ManitaeGame(QtCore.QObject):
         super(ManitaeGame, self).__init__()
         self.main_window = main_window
         
+        self.scenario_manager = ScenarioManager(self)
+        self.scenario = self.scenario_manager.get_scenario()
+        
         self.logger = ManitaeLogger()
         self.logger.send_entry.connect(self.add_log_entry)
         self.logger.append_notice("New game started.")
         
         self.turn_manager = TurnManager(self)
+        self.map_manager = MapManager(self)
         
         self.economy_manager = EconomyManager(self)
         self.population_manager = PopulationManager(self)
@@ -49,27 +56,30 @@ class ManitaeGame(QtCore.QObject):
         
         self.main_window.ui.widget.ui.resourceComboBox.setModel(self.resource_manager.resource_type_model)
         self.main_window.ui.widget.ui.resourceComboBox.activated[str].connect(self.update_resource_widget)
-        self.main_window.ui.widget.ui.buildComboBox.setModel(self.unit_manager.unit_type_model)
-        self.main_window.ui.widget.ui.buildPushButton.clicked.connect(self.build)
+        self.main_window.ui.buildComboBox.setModel(self.unit_manager.unit_type_model)
+        self.main_window.ui.buildPushButton.clicked.connect(self.build)
         
         self.resource_manager.resource_changed.connect(self.update_resource_widget_after_turn)
         
         self.main_window.ui.widget.ui.resourceLineEdit.setText('0')
     
     def add_log_entry(self, log_entry):
-        temp_cursor = self.main_window.ui.widget.ui.noticeLog.textCursor()
+        temp_cursor = self.main_window.ui.noticeLog.textCursor()
         temp_cursor.movePosition(QtGui.QTextCursor.End)
-        self.main_window.ui.widget.ui.noticeLog.setTextCursor(temp_cursor)
-        self.main_window.ui.widget.ui.noticeLog.insertHtml(log_entry)
+        self.main_window.ui.noticeLog.setTextCursor(temp_cursor)
+        self.main_window.ui.noticeLog.insertHtml(log_entry)
     
     def add_tab(self, tab, name):
         self.main_window.ui.tabWidget.addTab(tab, name)
         self.extra_tabs.append(tab)
     
     def build(self):
-        unit = self.main_window.ui.widget.ui.buildComboBox.currentText()
+        unit_str = self.main_window.ui.buildComboBox.currentText()
         try:
-            self.unit_manager.build(unit)
+            unit = self.unit_manager.build(unit_str)
+            self.main_window.ui.goToTabPushButton.setEnabled(True)
+            self.main_window.ui.tileOccupantLineEdit.setText(str(unit))
+            self.main_window.ui.buildPushButton.setEnabled(unit.tile.buildable)
         except (NoMoreWorkersError, OutOfMoneyError) as e:
             self.logger.append_warning(str(e))
     
@@ -77,18 +87,29 @@ class ManitaeGame(QtCore.QObject):
         self.turn_manager.end_turn()
     
     def restart_game(self):
+        
+        scenario_manager = ScenarioManager(self)
+        scenario = scenario_manager.get_scenario()
+        
+        del self.scenario_manager
+        del self.scenario
+        self.scenario_manager = scenario_manager
+        self.scenario = scenario
+        
         for x in self.extra_tabs:
             self.main_window.ui.tabWidget.removeTab(self.main_window.ui.tabWidget.indexOf(x))
         del self.extra_tabs
         del self.economy_manager
+        del self.map_manager
         del self.population_manager
         del self.resource_manager
         del self.turn_manager
         del self.unit_manager
         #
         
-        self.turn_manager = TurnManager(self)
         self.logger.append_notice("New game started.")
+        self.turn_manager = TurnManager(self)
+        self.map_manager = MapManager(self)
         
         self.economy_manager = EconomyManager(self)
         self.population_manager = PopulationManager(self)
@@ -100,7 +121,7 @@ class ManitaeGame(QtCore.QObject):
         self.extra_tabs = []
         
         self.main_window.ui.widget.ui.resourceComboBox.setModel(self.resource_manager.resource_type_model)
-        self.main_window.ui.widget.ui.buildComboBox.setModel(self.unit_manager.unit_type_model)
+        #self.main_window.ui.widget.ui.buildComboBox.setModel(self.unit_manager.unit_type_model)
         
         self.resource_manager.resource_changed.connect(self.update_resource_widget_after_turn)
         

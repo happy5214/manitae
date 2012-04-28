@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ManitaeMainWindow.ui'
 #
-# Created: Mon Jan 30 13:25:49 2012
+# Created: Wed Mar  7 03:27:06 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_ManitaeMainWindow(object):
     def setupUi(self, ManitaeMainWindow):
         ManitaeMainWindow.setObjectName(_fromUtf8("ManitaeMainWindow"))
-        ManitaeMainWindow.resize(856, 568)
+        ManitaeMainWindow.resize(1305, 666)
         ManitaeMainWindow.setWindowTitle(QtGui.QApplication.translate("ManitaeMainWindow", "Manitae", None, QtGui.QApplication.UnicodeUTF8))
         self.centralWidget = QtGui.QWidget(ManitaeMainWindow)
         self.centralWidget.setObjectName(_fromUtf8("centralWidget"))
@@ -41,10 +41,77 @@ class Ui_ManitaeMainWindow(object):
         self.peopleTabWidget.setObjectName(_fromUtf8("peopleTabWidget"))
         self.gridLayout_3.addWidget(self.peopleTabWidget, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
+        self.tab_3 = QtGui.QWidget()
+        self.tab_3.setObjectName(_fromUtf8("tab_3"))
+        self.gridLayout_7 = QtGui.QGridLayout(self.tab_3)
+        self.gridLayout_7.setObjectName(_fromUtf8("gridLayout_7"))
+        self.mapTabWidget = QtGui.QWidget(self.tab_3)
+        self.mapTabWidget.setObjectName(_fromUtf8("mapTabWidget"))
+        self.verticalLayout = QtGui.QVBoxLayout(self.mapTabWidget)
+        self.verticalLayout.setMargin(0)
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.mapView = QtDeclarative.QDeclarativeView(self.mapTabWidget)
+        self.mapView.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+        self.mapView.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+        self.mapView.setResizeMode(QtDeclarative.QDeclarativeView.SizeViewToRootObject)
+        self.mapView.setObjectName(_fromUtf8("mapView"))
+        self.verticalLayout.addWidget(self.mapView)
+        self.verticalLayout_2 = QtGui.QVBoxLayout()
+        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
+        self.groupBox = QtGui.QGroupBox(self.mapTabWidget)
+        self.groupBox.setTitle(QtGui.QApplication.translate("ManitaeMainWindow", "On This Square", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox.setObjectName(_fromUtf8("groupBox"))
+        self.formLayout_2 = QtGui.QFormLayout(self.groupBox)
+        self.formLayout_2.setFieldGrowthPolicy(QtGui.QFormLayout.ExpandingFieldsGrow)
+        self.formLayout_2.setObjectName(_fromUtf8("formLayout_2"))
+        self.label = QtGui.QLabel(self.groupBox)
+        self.label.setText(QtGui.QApplication.translate("ManitaeMainWindow", "Position", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.formLayout_2.setWidget(0, QtGui.QFormLayout.LabelRole, self.label)
+        self.positionLineEdit = QtGui.QLineEdit(self.groupBox)
+        self.positionLineEdit.setReadOnly(True)
+        self.positionLineEdit.setObjectName(_fromUtf8("positionLineEdit"))
+        self.formLayout_2.setWidget(0, QtGui.QFormLayout.FieldRole, self.positionLineEdit)
+        self.label_2 = QtGui.QLabel(self.groupBox)
+        self.label_2.setText(QtGui.QApplication.translate("ManitaeMainWindow", "Object", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.formLayout_2.setWidget(1, QtGui.QFormLayout.LabelRole, self.label_2)
+        self.tileOccupantLineEdit = QtGui.QLineEdit(self.groupBox)
+        self.tileOccupantLineEdit.setReadOnly(True)
+        self.tileOccupantLineEdit.setObjectName(_fromUtf8("tileOccupantLineEdit"))
+        self.formLayout_2.setWidget(1, QtGui.QFormLayout.FieldRole, self.tileOccupantLineEdit)
+        self.verticalLayout_2.addWidget(self.groupBox)
+        self.groupBox_2 = QtGui.QGroupBox(self.mapTabWidget)
+        self.groupBox_2.setTitle(QtGui.QApplication.translate("ManitaeMainWindow", "Actions", None, QtGui.QApplication.UnicodeUTF8))
+        self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
+        self.gridLayout_6 = QtGui.QGridLayout(self.groupBox_2)
+        self.gridLayout_6.setObjectName(_fromUtf8("gridLayout_6"))
+        self.buildPushButton = QtGui.QPushButton(self.groupBox_2)
+        self.buildPushButton.setEnabled(False)
+        self.buildPushButton.setText(QtGui.QApplication.translate("ManitaeMainWindow", "Build", None, QtGui.QApplication.UnicodeUTF8))
+        self.buildPushButton.setObjectName(_fromUtf8("buildPushButton"))
+        self.gridLayout_6.addWidget(self.buildPushButton, 0, 1, 1, 1)
+        self.buildComboBox = QtGui.QComboBox(self.groupBox_2)
+        self.buildComboBox.setObjectName(_fromUtf8("buildComboBox"))
+        self.gridLayout_6.addWidget(self.buildComboBox, 0, 0, 1, 1)
+        self.pushButton_2 = QtGui.QPushButton(self.groupBox_2)
+        self.pushButton_2.setEnabled(False)
+        self.pushButton_2.setText(QtGui.QApplication.translate("ManitaeMainWindow", "Destroy", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.gridLayout_6.addWidget(self.pushButton_2, 1, 1, 1, 1)
+        self.goToTabPushButton = QtGui.QPushButton(self.groupBox_2)
+        self.goToTabPushButton.setEnabled(False)
+        self.goToTabPushButton.setText(QtGui.QApplication.translate("ManitaeMainWindow", "Go to Unit\'s tab", None, QtGui.QApplication.UnicodeUTF8))
+        self.goToTabPushButton.setObjectName(_fromUtf8("goToTabPushButton"))
+        self.gridLayout_6.addWidget(self.goToTabPushButton, 1, 0, 1, 1)
+        self.verticalLayout_2.addWidget(self.groupBox_2)
+        self.verticalLayout.addLayout(self.verticalLayout_2)
+        self.gridLayout_7.addWidget(self.mapTabWidget, 0, 0, 1, 1)
+        self.tabWidget.addTab(self.tab_3, _fromUtf8(""))
         self.gridLayout_2.addWidget(self.tabWidget, 0, 0, 1, 1)
         ManitaeMainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtGui.QMenuBar(ManitaeMainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 856, 21))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1305, 21))
         self.menuBar.setObjectName(_fromUtf8("menuBar"))
         self.menuGame = QtGui.QMenu(self.menuBar)
         self.menuGame.setTitle(QtGui.QApplication.translate("ManitaeMainWindow", "Game", None, QtGui.QApplication.UnicodeUTF8))
@@ -64,6 +131,29 @@ class Ui_ManitaeMainWindow(object):
         self.statusBar = QtGui.QStatusBar(ManitaeMainWindow)
         self.statusBar.setObjectName(_fromUtf8("statusBar"))
         ManitaeMainWindow.setStatusBar(self.statusBar)
+        self.dockWidget = QtGui.QDockWidget(ManitaeMainWindow)
+        self.dockWidget.setWindowTitle(QtGui.QApplication.translate("ManitaeMainWindow", "Notices", None, QtGui.QApplication.UnicodeUTF8))
+        self.dockWidget.setObjectName(_fromUtf8("dockWidget"))
+        self.dockWidgetContents = QtGui.QWidget()
+        self.dockWidgetContents.setObjectName(_fromUtf8("dockWidgetContents"))
+        self.gridLayout_4 = QtGui.QGridLayout(self.dockWidgetContents)
+        self.gridLayout_4.setObjectName(_fromUtf8("gridLayout_4"))
+        self.noticeLog = QtGui.QTextEdit(self.dockWidgetContents)
+        self.noticeLog.setEnabled(True)
+        self.noticeLog.setReadOnly(True)
+        self.noticeLog.setHtml(QtGui.QApplication.translate("ManitaeMainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Ubuntu\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This is a notice.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#c00000;\">This is a warning!</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Messages will appear below.</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Click on &quot;File&gt;New Game&quot; or press Ctrl+N to start.</p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.noticeLog.setObjectName(_fromUtf8("noticeLog"))
+        self.gridLayout_4.addWidget(self.noticeLog, 0, 0, 1, 1)
+        self.dockWidget.setWidget(self.dockWidgetContents)
+        ManitaeMainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.dockWidget)
         self.actionNew_Game = QtGui.QAction(ManitaeMainWindow)
         self.actionNew_Game.setText(QtGui.QApplication.translate("ManitaeMainWindow", "New Game", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_Game.setShortcut(QtGui.QApplication.translate("ManitaeMainWindow", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
@@ -119,5 +209,7 @@ class Ui_ManitaeMainWindow(object):
     def retranslateUi(self, ManitaeMainWindow):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("ManitaeMainWindow", "Summary", None, QtGui.QApplication.UnicodeUTF8))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QtGui.QApplication.translate("ManitaeMainWindow", "Population", None, QtGui.QApplication.UnicodeUTF8))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QtGui.QApplication.translate("ManitaeMainWindow", "Map", None, QtGui.QApplication.UnicodeUTF8))
 
+from PyQt4 import QtDeclarative
 from ManitaeSummary import ManitaeSummary

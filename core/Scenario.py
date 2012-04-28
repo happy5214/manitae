@@ -17,20 +17,23 @@
 
 from PyQt4 import QtCore
 
-from Unit import *
-
-from NoMoreWorkersError import *
-
-class Producer(Unit):
+class Scenario(QtCore.QObject):
+    def __init__(self, game):
+        super(Scenario, self).__init__()
+        self.game = game
     
-    employee_fired = QtCore.pyqtSignal('QString')
-    employee_hired = QtCore.pyqtSignal('QString')
-    needs_employee = QtCore.pyqtSignal(Unit, int)
-    production_switched = QtCore.pyqtSignal()
-    salary_changed = QtCore.pyqtSignal(float)
+    def register_person_types(self):
+        return self.person_types
     
-    def __init__(self):
-        super(Producer, self).__init__()
+    def register_resource_types(self):
+        return self.resource_types
     
-    def ready_for_allocation(self):
-        pass
+    def register_unit_types(self):
+        return self.unit_types
+    
+    def setup_basic_units(self, manager):
+        return False
+    
+    def setup_basic_population(self, manager):
+        return False
+    

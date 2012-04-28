@@ -15,22 +15,9 @@
 #   You should have received a copy of the GNU General Public License
 #   along with Manitae.  If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt4 import QtCore
-
-from Unit import *
-
-from NoMoreWorkersError import *
-
-class Producer(Unit):
-    
-    employee_fired = QtCore.pyqtSignal('QString')
-    employee_hired = QtCore.pyqtSignal('QString')
-    needs_employee = QtCore.pyqtSignal(Unit, int)
-    production_switched = QtCore.pyqtSignal()
-    salary_changed = QtCore.pyqtSignal(float)
-    
+class NoScenarioSelectedError(Exception):
     def __init__(self):
-        super(Producer, self).__init__()
-    
-    def ready_for_allocation(self):
         pass
+    
+    def __str__(self):
+        return "Could not start game: No scenario selected."

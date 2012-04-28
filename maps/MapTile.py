@@ -17,20 +17,16 @@
 
 from PyQt4 import QtCore
 
-from Unit import *
-
-from NoMoreWorkersError import *
-
-class Producer(Unit):
+class MapTile(QtCore.QObject):
     
-    employee_fired = QtCore.pyqtSignal('QString')
-    employee_hired = QtCore.pyqtSignal('QString')
-    needs_employee = QtCore.pyqtSignal(Unit, int)
-    production_switched = QtCore.pyqtSignal()
-    salary_changed = QtCore.pyqtSignal(float)
+    buildable = True
+    tile = ""
+    unit = None
     
-    def __init__(self):
-        super(Producer, self).__init__()
+    def __init__(self, color, tile=None):
+        super(MapTile, self).__init__()
+        self.color = color
+        if not(self.tile) and tile:
+            self.tile = tile
+            self.buildable = False
     
-    def ready_for_allocation(self):
-        pass
