@@ -32,20 +32,20 @@ class ScenarioManager(QtCore.QObject):
         self.game = game
         self.import_scenarios()
         self.scenario_dialog = QDialog(self.game.main_window)
-        uic.loadUi('./core/ui/ScenarioDialog.ui', self.scenario_dialog)
+        uic.loadUi('./manitae/core/ui/ScenarioDialog.ui', self.scenario_dialog)
     
     def import_scenarios(self):
         self.available_scenarios = []
         self.name_to_class = {}
-        for x in pkgutil.walk_packages(['scenarios']):
+        for x in pkgutil.walk_packages(['manitae/scenarios']):
             if not(x[1].startswith('ui_')):
-                __import__("scenarios." + x[1])
-                name = eval("scenarios." + x[1] + '.' + x[1] + ".NAME")
+                __import__("manitae.scenarios." + x[1])
+                name = eval("manitae.scenarios." + x[1] + '.' + x[1] + ".NAME")
                 self.available_scenarios.append(name)
                 self.name_to_class[name] = x[1]
         self.scenario_config_widgets = {}
         for n, c in self.name_to_class.items():
-            w = eval("scenarios.{0}.{0}.get_config_widget()".format(c))
+            w = eval("manitae.scenarios.{0}.{0}.get_config_widget()".format(c))
             self.scenario_config_widgets[n] = w
         self.scenario_list_model = QtGui.QStringListModel()
         self.scenario_list_model.setStringList(self.available_scenarios)
@@ -62,7 +62,7 @@ class ScenarioManager(QtCore.QObject):
                 raise NoScenarioSelectedError()
             widget = self.active_widget
             c = self.name_to_class[str(name)]
-            self.scenario = eval("scenarios.{0}.{0}(self.game, widget)".format(c))
+            self.scenario = eval("manitae.scenarios.{0}.{0}(self.game, widget)".format(c))
             return self.scenario
         else:
             raise NoScenarioSelectedError()

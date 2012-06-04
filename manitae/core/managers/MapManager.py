@@ -29,7 +29,7 @@ class MapManager(QtCore.QObject):
         self.model = QMLInterfaceModel(self.map_model)
         
         self.game.main_window.ui.mapView.rootContext().setContextProperty("map_model", self.model)
-        self.game.main_window.ui.mapView.setSource(QtCore.QUrl("./maps/Map.qml"))
+        self.game.main_window.ui.mapView.setSource(QtCore.QUrl("./manitae/maps/Map.qml"))
         
         self.qml_root = self.game.main_window.ui.mapView.rootObject()
         self.qml_root.resize(self.model.model.columnCount(), self.model.model.rowCount())

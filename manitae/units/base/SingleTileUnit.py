@@ -31,5 +31,6 @@ class SingleTileUnit(Unit):
     @tile.setter
     def tile(self, new_tile):
         self._tile = new_tile
+        self._tile.color = self._tile.tile_type.color
         self._tile.__class__ = self.tile_type
     

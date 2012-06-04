@@ -17,8 +17,6 @@
 
 from PyQt4.QtCore import QObject, pyqtSignal, pyqtSlot
 
-from manitae.core.ManitaeGame import ManitaeGame
-
 class TurnManager(QObject):
     turn_ended = pyqtSignal(int)
     

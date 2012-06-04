@@ -38,7 +38,7 @@ class TheBasics(Scenario):
     
     @staticmethod
     def get_config_widget():
-        return uic.loadUi('./scenarios/ui/TheBasicsConfig.ui')
+        return uic.loadUi('./manitae/scenarios/ui/TheBasicsConfig.ui')
     
     def setup_basic_population(self, manager):
         for x in range(5):
@@ -49,25 +49,25 @@ class TheBasics(Scenario):
         size = 100
         map_data = []
         top = []
-        top.append(GrassTile("./tiles/roads/path1/32px/downright.png"))
-        top.append(GrassTile("./tiles/roads/path1/32px/downleft.png"))
+        top.append(GrassTile("./tile_images/roads/path1/32px/downright.png"))
+        top.append(GrassTile("./tile_images/roads/path1/32px/downleft.png"))
         top.append(GrassTile(""))
-        top.append(GrassTile("./tiles/roads/path1/32px/downright.png"))
+        top.append(GrassTile("./tile_images/roads/path1/32px/downright.png"))
         for y in range(size - 5):
-            top.append(GrassTile("./tiles/roads/path1/32px/horizdown.png"))
-        top.append(GrassTile("./tiles/roads/path1/32px/downleft.png"))
+            top.append(GrassTile("./tile_images/roads/path1/32px/horizdown.png"))
+        top.append(GrassTile("./tile_images/roads/path1/32px/downleft.png"))
         map_data.append(top)
         for x in range(size - 2):
             r = []
-            r.append(GrassTile("./tiles/roads/path1/32px/vertright.png"))
+            r.append(GrassTile("./tile_images/roads/path1/32px/vertright.png"))
             for y in range(size - 2):
-                r.append(GrassTile("./tiles/roads/path1/32px/cross.png"))
-            r.append(GrassTile("./tiles/roads/path1/32px/vertleft.png"))
+                r.append(GrassTile("./tile_images/roads/path1/32px/cross.png"))
+            r.append(GrassTile("./tile_images/roads/path1/32px/vertleft.png"))
             map_data.append(r)
         bottom = []
-        bottom.append(GrassTile("./tiles/roads/path1/32px/upright.png"))
+        bottom.append(GrassTile("./tile_images/roads/path1/32px/upright.png"))
         for y in range(size - 2):
-            bottom.append(GrassTile("./tiles/roads/path1/32px/horizup.png"))
-        bottom.append(GrassTile("./tiles/roads/path1/32px/upleft.png"))
+            bottom.append(GrassTile("./tile_images/roads/path1/32px/horizup.png"))
+        bottom.append(GrassTile("./tile_images/roads/path1/32px/upleft.png"))
         map_data.append(bottom)
         return map_data

@@ -49,13 +49,13 @@ class PopulationManager(QtCore.QObject):
         """Sets up the population_types list."""
         pop_types = self.game.scenario.register_person_types()
         if not(pop_types):
-            for x in pkgutil.walk_packages(['people']):
+            for x in pkgutil.walk_packages(['manitae/people']):
                 if not(x[1].startswith('ui_')):
                     self.population_types.append(x[1])
         else:
             self.population_types = pop_types
         for x in self.population_types:
-            __import__("people." + x)
+            __import__("manitae.people." + x)
         self.level_one_people()
     
     def setup_basic_population(self):
@@ -120,8 +120,8 @@ class PopulationManager(QtCore.QObject):
     def level_one_people(self):
         elig_pop_type_list = []
         for person_type in self.population_types:
-            if (eval("people.{0}.{0}.level".format(person_type)) == 1):
-                elig_pop_type_list.append(eval("people.{0}.{0}.TYPE".format(person_type)))
+            if (eval("manitae.people.{0}.{0}.level".format(person_type)) == 1):
+                elig_pop_type_list.append(eval("manitae.people.{0}.{0}.TYPE".format(person_type)))
         manitae.people.Citizen.Citizen.level_up_types = elig_pop_type_list
     
     def person_name_changed(self):

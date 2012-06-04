@@ -42,7 +42,7 @@ class UnitManager(QtCore.QObject):
     
     def build(self, unit_to_build):
         unit_to_build_clean = unit_to_build.replace(' ', '')
-        unit = eval("units.{0}.{0}()".format(unit_to_build_clean))
+        unit = eval("manitae.units.{0}.{0}()".format(unit_to_build_clean))
         unit.coords = self.game.map_manager.current_tile_coords
         unit.tile = self.game.map_manager.current_tile
         self.turn_manager.turn_ended.connect(unit.on_turn_end)
@@ -77,14 +77,14 @@ class UnitManager(QtCore.QObject):
         """Sets up the population_types list."""
         unit_types = self.game.scenario.register_unit_types()
         if not(unit_types):
-            for x in pkgutil.walk_packages(['units']):
+            for x in pkgutil.walk_packages(['manitae/units']):
                 if not(x[1].startswith('ui_')):
-                    __import__("units." + x[1])
-                    self.unit_types.append(eval("units." + x[1] + '.' + x[1] + ".UNIT"))
+                    __import__("manitae.units." + x[1])
+                    self.unit_types.append(eval("manitae.units." + x[1] + '.' + x[1] + ".UNIT"))
         else:
             self.unit_types = unit_types
             for x in self.unit_types:
-                __import__("units." + x.replace(' ', ''))
+                __import__("manitae.units." + x.replace(' ', ''))
     
     def setup_basic_units(self):
         self.game.scenario.setup_basic_units(self)

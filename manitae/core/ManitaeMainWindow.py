@@ -17,8 +17,8 @@
 
 from PyQt4 import QtGui, QtCore
 
-from ManitaeSummary import *
-from ManitaeGame import *
+from ManitaeSummary import ManitaeSummary
+from ManitaeGame import ManitaeGame
 
 from manitae.errors.NoScenarioSelectedError import *
 

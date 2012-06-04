@@ -31,8 +31,8 @@ class ResourceManager(QtCore.QObject):
     def setup_resource_types(self):
         """Sets up the resource_types list."""
         self.resource_types = []
-        for x in pkgutil.walk_packages(['resources']):
-            if not(x[1].startswith('ui_')):
+        for x in pkgutil.walk_packages(['manitae/resources']):
+            if not(x[1].startswith('ui_') or (x[1] == "base")):
                 self.resource_types.append(x[1])
     
     def update_primitive_resource(self, resource, change):
