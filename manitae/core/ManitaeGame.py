@@ -56,6 +56,7 @@ class ManitaeGame(QtCore.QObject):
         self.main_window.ui.widget.ui.resourceComboBox.setModel(self.resource_manager.resource_type_model)
         self.main_window.ui.widget.ui.resourceComboBox.activated[str].connect(self.update_resource_widget)
         self.main_window.ui.buildComboBox.setModel(self.unit_manager.unit_type_model)
+        self.main_window.ui.buildComboBox.setItemIcon(self.main_window.ui.buildComboBox.findText("Hunter"), QtGui.QIcon("./manitae/maps/tile_images/units/Hunter/Hunter.svg"))
         self.main_window.ui.buildPushButton.clicked.connect(self.build)
         
         self.resource_manager.resource_changed.connect(self.update_resource_widget_after_turn)
@@ -69,8 +70,9 @@ class ManitaeGame(QtCore.QObject):
         self.main_window.ui.noticeLog.insertHtml(log_entry)
     
     def add_tab(self, tab, name):
-        self.main_window.ui.tabWidget.addTab(tab, name)
+        tab_number = self.main_window.ui.tabWidget.addTab(tab, name)
         self.extra_tabs.append(tab)
+        return tab_number
     
     def build(self):
         unit_str = self.main_window.ui.buildComboBox.currentText()
@@ -120,7 +122,8 @@ class ManitaeGame(QtCore.QObject):
         self.extra_tabs = []
         
         self.main_window.ui.widget.ui.resourceComboBox.setModel(self.resource_manager.resource_type_model)
-        #self.main_window.ui.widget.ui.buildComboBox.setModel(self.unit_manager.unit_type_model)
+        self.main_window.ui.widget.ui.buildComboBox.setModel(self.unit_manager.unit_type_model)
+        self.main_window.ui.buildComboBox.setItemIcon(self.main_window.ui.buildComboBox.findText("Hunter"), QtGui.QIcon("./manitae/maps/tile_images/units/Hunter/Hunter.svg"))
         
         self.resource_manager.resource_changed.connect(self.update_resource_widget_after_turn)
         

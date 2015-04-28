@@ -15,13 +15,13 @@
 #   You should have received a copy of the GNU General Public License
 #   along with Manitae.  If not, see <http://www.gnu.org/licenses/>.
 
+from PyQt4 import uic
 from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
 from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox
 
 from manitae.errors.NoMoreWorkersError import NoMoreWorkersError
 
 from manitae.units.base.PrimitiveProducer import PrimitiveProducer
-from manitae.units.ui_PrimitiveProducer import Ui_PrimitiveProducer
 
 class LevelOnePrimitiveProducer(PrimitiveProducer):
     """A :class:`~units.base.PrimitiveProducer.PrimitiveProducer` at :attr:`~core.basetypes.Unit.Unit.level` 1
@@ -52,31 +52,30 @@ class LevelOnePrimitiveProducer(PrimitiveProducer):
         self.employee_model = QStringListModel()
         self.hirable_model = QStringListModel()
         
-        self.ui = Ui_PrimitiveProducer()
         self.widget = QWidget()
-        self.ui.setupUi(self.widget)
+        uic.loadUi('./manitae/units/ui/PrimitiveProducer.ui', self.widget)
         
-        self.ui.typeLineEdit.setText(self.UNIT)
-        self.ui.levelLineEdit.setText(str(self.level))
-        self.ui.nameLineEdit.textEdited.connect(self.name_changed)
-        self.ui.fireComboBox.setModel(self.employee_model)
-        self.ui.fireButton.clicked.connect(self.fire_employee)
-        self.ui.hireComboBox.setModel(self.hirable_model)
-        self.ui.hireButton.clicked.connect(self.hire_employee)
-        self.ui.prodOnCheckBox.toggled.connect(self.production_on_checked)
-        self.ui.employeeLineEdit.setText(str(self.employee_count))
-        self.ui.prodOnCheckBox.setChecked(self.production_on)
-        self.ui.destroyButton.clicked.connect(self.destroy)
-        self.ui.employeeListView.setModel(self.employee_model)
+        self.widget.typeLineEdit.setText(self.UNIT)
+        self.widget.levelLineEdit.setText(str(self.level))
+        self.widget.nameLineEdit.textEdited.connect(self.name_changed)
+        self.widget.fireComboBox.setModel(self.employee_model)
+        self.widget.fireButton.clicked.connect(self.fire_employee)
+        self.widget.hireComboBox.setModel(self.hirable_model)
+        self.widget.hireButton.clicked.connect(self.hire_employee)
+        self.widget.prodOnCheckBox.toggled.connect(self.production_on_checked)
+        self.widget.employeeLineEdit.setText(str(self.employee_count))
+        self.widget.prodOnCheckBox.setChecked(self.production_on)
+        self.widget.destroyButton.clicked.connect(self.destroy)
+        self.widget.employeeListView.setModel(self.employee_model)
     
     def ready_for_allocation(self):
         self.needs_employee.emit(self, 1)
         if self.employee_count == 0:
             raise NoMoreWorkersError(self.UNIT)
         self.employee_model.setStringList(self.employee_string_list)
-        self.ui.employeeLineEdit.setText(str(self.employee_count))
-        self.ui.prodLevelLineEdit.setText(str(self.production_rate))
-        self.ui.salaryLineEdit.setText(self.display_money(self.salary))
+        self.widget.employeeLineEdit.setText(str(self.employee_count))
+        self.widget.prodLevelLineEdit.setText(str(self.production_rate))
+        self.widget.salaryLineEdit.setText(self.display_money(self.salary))
         self.production_on = True
     
     #Properties and UI updaters
@@ -129,11 +128,11 @@ class LevelOnePrimitiveProducer(PrimitiveProducer):
     @production_on.setter
     def production_on(self, value):
         self._production_on = value
-        self.ui.prodOnCheckBox.setChecked(self._production_on)
+        self.widget.prodOnCheckBox.setChecked(self._production_on)
         try:
             self.salary_changed.emit(self.salary)
-            self.ui.salaryLineEdit.setText(self.display_money(self.salary))
-            self.ui.prodLevelLineEdit.setText(str(self.production_rate))
+            self.widget.salaryLineEdit.setText(self.display_money(self.salary))
+            self.widget.prodLevelLineEdit.setText(str(self.production_rate))
             for emp in self.employees:
                 emp.employer_production_switched()
             self.production_switched.emit()
@@ -152,35 +151,35 @@ class LevelOnePrimitiveProducer(PrimitiveProducer):
         if self.employee_count == 0:
             self.send_warning.emit("Unable to fire employee from unit {0}: this unit has no employees.".format(str(self)))
             return
-        emp_str = self.ui.fireComboBox.currentText()
+        emp_str = self.widget.fireComboBox.currentText()
         self.employee_fired.emit(emp_str)
-        self.ui.employeeLineEdit.setText(str(self.employee_count))
+        self.widget.employeeLineEdit.setText(str(self.employee_count))
         self.employee_model.setStringList(self.employee_string_list)
-        self.ui.salaryLineEdit.setText(self.display_money(self.salary))
-        self.ui.prodLevelLineEdit.setText(str(self.production_rate))
+        self.widget.salaryLineEdit.setText(self.display_money(self.salary))
+        self.widget.prodLevelLineEdit.setText(str(self.production_rate))
     
     def hire_employee(self):
         if self.employee_count == self.employee_max:
             self.send_warning.emit("Unable to hire employee for unit {0}: this unit has the maximum number of employees.".format(str(self)))
             return
-        emp_str = self.ui.hireComboBox.currentText()
+        emp_str = self.widget.hireComboBox.currentText()
         self.employee_hired.emit(emp_str)
-        self.ui.employeeLineEdit.setText(str(self.employee_count))
+        self.widget.employeeLineEdit.setText(str(self.employee_count))
         self.employee_model.setStringList(self.employee_string_list)
-        self.ui.salaryLineEdit.setText(self.display_money(self.salary))
-        self.ui.prodLevelLineEdit.setText(str(self.production_rate))
+        self.widget.salaryLineEdit.setText(self.display_money(self.salary))
+        self.widget.prodLevelLineEdit.setText(str(self.production_rate))
     
     def employee_upgraded(self, emp):
         if (emp.TYPE not in self.employee_types):
             emp_str = str(emp)
             self.employee_fired.emit(emp_str)
-            self.ui.employeeLineEdit.setText(str(self.employee_count))
+            self.widget.employeeLineEdit.setText(str(self.employee_count))
             self.employee_model.setStringList(self.employee_string_list)
-            self.ui.salaryLineEdit.setText(self.display_money(self.salary))
-            self.ui.prodLevelLineEdit.setText(str(self.production_rate))
+            self.widget.salaryLineEdit.setText(self.display_money(self.salary))
+            self.widget.prodLevelLineEdit.setText(str(self.production_rate))
         else:
-            self.ui.salaryLineEdit.setText(self.display_money(self.salary))
-            self.ui.prodLevelLineEdit.setText(str(self.production_rate))
+            self.widget.salaryLineEdit.setText(self.display_money(self.salary))
+            self.widget.prodLevelLineEdit.setText(str(self.production_rate))
             self.salary_changed.emit(self.salary)
     
     def name_changed(self, new_name):

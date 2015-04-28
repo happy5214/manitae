@@ -54,7 +54,10 @@ class EconomyManager(QtCore.QObject):
             unit.salary_changed.connect(self.unit_salary_changed)
     
     def display_money(self, amount):
-        return "{:.2f}".format(amount)
+        money = "{:.2f}".format(amount)
+#        if amount < 0:
+#            return "<span style=\"color:#c00000\">" + money + "</span>"
+        return money
     
     @pyqtProperty(dict)
     def income_taxes(self):

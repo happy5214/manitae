@@ -37,6 +37,11 @@ class MapManager(QtCore.QObject):
         
         self.game.main_window.ui.goToTabPushButton.clicked.connect(self.go_to_tab)
     
+    def __del__(self):
+        self.game.main_window.ui.positionLineEdit.setText("")
+        self.game.main_window.ui.tileOccupantLineEdit.setText("")
+        self.game.main_window.ui.goToTabPushButton.setEnabled(False)
+    
     def update_current_tile(self, tile_index):
         self.current_tile_coords = self.model.index_to_coords(tile_index)
         self.current_tile = self.map_data[self.current_tile_coords[1]][self.current_tile_coords[0]]

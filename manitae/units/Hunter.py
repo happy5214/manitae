@@ -16,7 +16,7 @@
 #   along with Manitae.  If not, see <http://www.gnu.org/licenses/>.
 
 from PyQt4.QtCore import pyqtSignal, pyqtProperty, pyqtSlot
-from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox
+from PyQt4.QtGui import QWidget, QStringListModel, QMessageBox, QPixmap
 
 from manitae.maps.MapTile import MapTile
 
@@ -28,7 +28,7 @@ from ui_PrimitiveProducer import Ui_PrimitiveProducer
 class HunterTile(MapTile):
     """:class:`~maps.MapTile.MapTile` type for :class:`Hunter`"""
     buildable = False
-    tile = "./tile_images/units/Hunter/Hunter32.png"
+    tile = "./tile_images/units/Hunter/Hunter.svg"
     def __init__(self, color):
         super(HunterTile, self).__init__(color)
     
@@ -58,6 +58,7 @@ class Hunter(LevelOnePrimitiveProducer, SingleTileUnit):
     
     def __init__(self):
         super(Hunter, self).__init__()
+        self.widget.imageWidget.load("./manitae/maps/tile_images/units/Hunter/Hunter.svg")
     
     def on_turn_end(self, turn_number):
         if self.production_on:

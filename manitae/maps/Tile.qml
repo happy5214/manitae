@@ -13,6 +13,7 @@ Rectangle {
         id: tile_image
         source: model.tile
         anchors.fill: parent
+        fillMode: Image.PreserveAspectFit
     }
     
     MouseArea {

@@ -27,6 +27,7 @@ from manitae.errors.OutOfMoneyError import OutOfMoneyError
 from manitae.maps.MapTile import MapTile
 
 from manitae.units.base.Producer import Producer
+from manitae.units.Hunter import Hunter
 
 import manitae.units
 
@@ -70,7 +71,9 @@ class UnitManager(QtCore.QObject):
         index = self.game.map_manager.model.index(self.game.map_manager.model.coords_to_index(unit.coords), 0)
         self.game.map_manager.model.dataChanged.emit(index, index)
         self.game.logger.append_notice("{0} built.".format(str(unit)))
-        self.game.add_tab(unit.widget, str(unit))
+        tab = self.game.add_tab(unit.widget, str(unit))
+        if isinstance(unit, Hunter):
+            self.game.main_window.ui.tabWidget.setTabIcon(tab, QtGui.QIcon("./manitae/maps/tile_images/units/Hunter/Hunter.svg"))
         return unit
     
     def setup_unit_types(self):
@@ -128,4 +131,8 @@ class UnitManager(QtCore.QObject):
         self.game.map_manager.update_data(coords, tile)
     
     def unit_name_changed(self):
-        self.game.main_window.ui.tabWidget.setTabText(self.game.main_window.ui.tabWidget.indexOf(self.sender().widget), str(self.sender()))
+        unit = self.sender()
+        self.game.main_window.ui.tabWidget.setTabText(self.game.main_window.ui.tabWidget.indexOf(unit.widget), str(unit))
+        self.game.map_manager.update_data(unit.coords, unit.tile)
+        
+    

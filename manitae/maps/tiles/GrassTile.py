@@ -19,5 +19,7 @@ from manitae.maps.MapTile import MapTile
 
 class GrassTile(MapTile):
     color = "green"
+    def __init__(self, tile=None):
+        super(GrassTile, self).__init__(tile)
+        self.tile_type = GrassTile
     
-GrassTile.tile_type = GrassTile

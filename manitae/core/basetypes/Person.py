@@ -176,7 +176,7 @@ class Person(QObject):
         if not(person_type):
             return
         person_type_clean = person_type.replace(' ', '')
-        upgrade_check, error = eval("people.{0}.{0}.upgrade_to(self)".format(person_type_clean))
+        upgrade_check, error = eval("manitae.people.{0}.{0}.upgrade_to(self)".format(person_type_clean))
         if not(upgrade_check):
             self.send_warning.emit("Could not upgrade person {0}: {1}".format(str(self), error))
         else:
